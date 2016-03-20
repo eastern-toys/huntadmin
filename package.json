@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Mystery Hunt administration web app",
   "dependencies": {
+    "d3": "^3.5.16",
     "es6-promise": "^3.1.2",
     "immutable": "^3.7.6",
     "immutable-reducers": "^1.1.0",
@@ -58,7 +59,10 @@
       "react"
     ],
     "rules": {
-      "indent": [2, 2],
+      "indent": [
+        2,
+        2
+      ],
       "react/no-multi-comp": "off",
       "react/prefer-stateless-function": "off",
       "react/prop-types": "off"
@@ -67,7 +71,7 @@
   "scripts": {
     "build": "webpack",
     "dev-server": "webpack-dev-server",
-    "eslint": "eslint src/** test/**.js",
+    "eslint": "eslint --ext .js,.jsx src/** test/**.js",
     "test": "mocha --compilers js:babel-core/register --require test/test_setup.js test/**"
   }
 }

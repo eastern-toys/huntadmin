@@ -9,6 +9,9 @@ export class App extends React.Component {
           <Link to={'/callqueue'} activeClassName="active">
             Call Queue
           </Link>
+          <Link to={'/huntstatus'} activeClassName="active">
+            Hunt Status
+          </Link>
           <Link to={'/teamstatus'} activeClassName="active">
             Team Status
           </Link>

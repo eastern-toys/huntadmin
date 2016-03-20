@@ -11,12 +11,14 @@ import createLogger from 'redux-logger';
 import { App } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
 import { Home } from './components/Home';
+import { HuntStatusContainer } from './components/HuntStatus';
 import { SubmitAnswerFormContainer } from './components/SubmitAnswerForm';
 import { TeamStatusContainer } from './components/TeamStatus';
 
 import reducer from './reducers/reducer';
 
 import * as callQueueActions from './actions/call_queue_actions';
+import * as huntStatusActions from './actions/hunt_status_actions';
 import * as submitAnswerFormActions from './actions/submit_answer_form_actions';
 import * as teamStatusActions from './actions/team_status_actions';
 
@@ -28,6 +30,7 @@ const store = createStore(reducer, new Map(), applyMiddleware(
   loggerMiddleware));
 
 store.dispatch(callQueueActions.refreshSubmissions());
+store.dispatch(huntStatusActions.refreshVisibilityHistory());
 store.dispatch(submitAnswerFormActions.refreshTeams());
 store.dispatch(teamStatusActions.refreshTeams());
 
@@ -35,6 +38,7 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
     <Route path="callqueue" component={CallQueueContainer} />
+    <Route path="huntstatus" component={HuntStatusContainer} />
     <Route path="teamstatus" component={TeamStatusContainer} />
     <Route path="submitanswer" component={SubmitAnswerFormContainer} />
   </Route>

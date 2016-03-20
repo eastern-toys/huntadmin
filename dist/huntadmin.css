@@ -68,6 +68,16 @@ body {
     background-color: #eeeeee;
 }
 
+.chart-container {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+
+.chart-text {
+    font-size: 12px;
+}
+
 .error-text-container {
     margin-top: 1em;
     color: red;
