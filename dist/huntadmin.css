@@ -71,11 +71,19 @@ body {
 .chart-container {
     margin-top: 1em;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .chart-text {
     font-size: 12px;
+}
+
+.chart-text path,
+.chart-text line {
+    fill: none;
+    stroke: #000;
 }
 
 .error-text-container {
