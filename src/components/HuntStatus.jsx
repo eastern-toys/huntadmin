@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { ScatterChart } from './ScatterChart';
 import { TimestampedEventChart } from './TimestampedEventChart';
 
 import * as actions from '../actions/hunt_status_actions.js';
@@ -22,6 +23,7 @@ class HuntStatus extends React.Component {
   render() {
     const state = this.props.state;
     const visibilityChanges = state.get('visibilityChanges').toJS();
+    const submissions = state.get('submissions').toJS();
 
     const solvesByTeamData = _.chain(visibilityChanges)
       .filter(change => change.status === 'SOLVED')
@@ -39,6 +41,16 @@ class HuntStatus extends React.Component {
         label: teamId,
         timestamps: _.map(changes, _.property('timestamp')),
       }))
+      .value();
+
+    const correctSubmissionsData = _.chain(submissions)
+      .groupBy('teamId')
+      .map((teamSubmissions, teamId) => ({
+        label: teamId,
+        x: teamSubmissions.length,
+        y: _.filter(teamSubmissions, s => s.status === 'CORRECT').length,
+      }))
+      .values()
       .value();
 
     return (
@@ -64,6 +76,16 @@ class HuntStatus extends React.Component {
           paddingRight="50"
           data={unlocksByTeamData}
         />
+        <ScatterChart
+          title="Submissions by Team"
+          xAxisLabel="Total Submissions"
+          yAxisLabel="Correct Submissions"
+          width="1000"
+          height="500"
+          axisSize="30"
+          paddingRight="50"
+          data={correctSubmissionsData}
+        />
       </div>
     );
   }
@@ -72,5 +94,5 @@ class HuntStatus extends React.Component {
 export const HuntStatusContainer = connect(
   state => ({ state: state.get('huntStatus') }),
   {
-    refresh: actions.refreshVisibilityHistory,
+    refresh: actions.refresh,
   })(HuntStatus);

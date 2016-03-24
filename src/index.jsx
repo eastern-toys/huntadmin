@@ -30,7 +30,7 @@ const store = createStore(reducer, new Map(), applyMiddleware(
   loggerMiddleware));
 
 store.dispatch(callQueueActions.refreshSubmissions());
-store.dispatch(huntStatusActions.refreshVisibilityHistory());
+store.dispatch(huntStatusActions.refresh());
 store.dispatch(submitAnswerFormActions.refreshTeams());
 store.dispatch(teamStatusActions.refreshTeams());
 
