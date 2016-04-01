@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions/call_queue_actions.js';
+import * as callQueueActions from '../actions/call_queue_actions.js';
+import * as commonActions from '../actions/common_actions.js';
 
 const DATE_STRING_OPTIONS = {
   month: 'short',
@@ -73,7 +74,7 @@ class SubmissionRow extends React.Component {
   }
 
   setStatus(status) {
-    this.props.setStatus(this.props.state.get('submissionId'), status);
+    this.props.setStatus(this.props.submission.get('submissionId'), status);
   }
 
   setAssigned() {
@@ -89,11 +90,11 @@ class SubmissionRow extends React.Component {
   }
 
   renderTimestamp() {
-    return timestampToString(this.props.state.get('timestamp'));
+    return timestampToString(this.props.submission.get('timestamp'));
   }
 
   renderActions() {
-    switch (this.props.state.get('status')) {
+    switch (this.props.submission.get('status')) {
     case 'SUBMITTED':
       return (
         <button type="button" onClick={this.setAssigned}>
@@ -121,13 +122,13 @@ class SubmissionRow extends React.Component {
   }
 
   render() {
-    const state = this.props.state;
+    const submission = this.props.submission;
     return (
       <tr>
         <td>{this.renderTimestamp()}</td>
-        <td>{state.get('teamId')}</td>
-        <td>{state.get('puzzleId')}</td>
-        <td>{state.get('submission')}</td>
+        <td>{submission.get('teamId')}</td>
+        <td>{submission.get('puzzleId')}</td>
+        <td>{submission.get('submission')}</td>
         <td>{this.renderActions()}</td>
       </tr>
     );
@@ -140,13 +141,11 @@ function isCompleteStatus(status) {
 
 class CallQueue extends React.Component {
   render() {
-    const state = this.props.state;
-
     let errorDiv = '';
-    if (state.has('errorText')) {
+    if (this.props.errorText !== null) {
       errorDiv = (
         <div className="error-text-container">
-          {state.get('errorText')}
+          {this.props.errorText}
         </div>
       );
     }
@@ -155,13 +154,13 @@ class CallQueue extends React.Component {
       <div>
         <div className="hunt-box-row">
           <RefreshControls
-            refreshTimestamp={state.get('refreshTimestamp')}
-            autoRefresh={state.get('autoRefresh')}
+            refreshTimestamp={this.props.refreshTimestamp}
+            autoRefresh={this.props.autoRefresh}
             refresh={this.props.refresh}
             toggleAutoRefresh={this.props.toggleAutoRefresh}
           />
           <ShowControls
-            showComplete={state.get('showComplete')}
+            showComplete={this.props.showComplete}
             toggleShowComplete={this.props.toggleShowComplete}
           />
         </div>
@@ -177,12 +176,12 @@ class CallQueue extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {state.get('submissions').filter(submission =>
-              state.get('showComplete') || !isCompleteStatus(submission.get('status'))
+            {this.props.submissions.filter(submission =>
+              this.props.showComplete || !isCompleteStatus(submission.get('status'))
             ).map(submission =>
               <SubmissionRow
                 key={submission.get('submissionId')}
-                state={submission}
+                submission={submission}
                 setStatus={this.props.setStatus}
               />
             )}
@@ -194,10 +193,16 @@ class CallQueue extends React.Component {
 }
 
 export const CallQueueContainer = connect(
-  state => ({ state: state.get('callQueue') }),
+  state => ({
+    errorText: state.get('errorText'),
+    submissions: state.getIn(['common', 'submissions']),
+    autoRefresh: state.getIn(['common', 'autoRefresh']),
+    refreshTimestamp: state.getIn(['common', 'refreshTimestamp']),
+    showComplete: state.getIn(['callQueue', 'showComplete']),
+  }),
   {
-    refresh: actions.refreshSubmissions,
-    toggleAutoRefresh: actions.toggleAutoRefresh,
-    toggleShowComplete: actions.toggleShowComplete,
-    setStatus: actions.setStatus,
+    refresh: commonActions.refresh,
+    toggleAutoRefresh: commonActions.toggleAutoRefresh,
+    toggleShowComplete: callQueueActions.toggleShowComplete,
+    setStatus: callQueueActions.setStatus,
   })(CallQueue);

@@ -17,8 +17,7 @@ import { TeamStatusContainer } from './components/TeamStatus';
 
 import reducer from './reducers/reducer';
 
-import * as callQueueActions from './actions/call_queue_actions';
-import * as huntStatusActions from './actions/hunt_status_actions';
+import * as commonActions from './actions/common_actions';
 import * as submitAnswerFormActions from './actions/submit_answer_form_actions';
 import * as teamStatusActions from './actions/team_status_actions';
 
@@ -29,10 +28,14 @@ const store = createStore(reducer, new Map(), applyMiddleware(
   thunkMiddleware,
   loggerMiddleware));
 
-store.dispatch(callQueueActions.refreshSubmissions());
-store.dispatch(huntStatusActions.refresh());
-store.dispatch(submitAnswerFormActions.refreshTeams());
-store.dispatch(teamStatusActions.refreshTeams());
+store.dispatch(dispatch =>
+  Promise.all([
+    dispatch(commonActions.fetchTeams()),
+    dispatch(commonActions.refresh()),
+  ]).then(() => Promise.all([
+    dispatch(submitAnswerFormActions.fetchPuzzles()),
+    dispatch(teamStatusActions.fetchVisibilities()),
+  ])));
 
 const routes = (
   <Route path="/" component={App}>

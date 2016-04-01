@@ -10,10 +10,9 @@ class SubmitAnswerForm extends React.Component {
   }
 
   disableSubmit() {
-    const state = this.props.state;
-    return state.get('submitting') ||
-      state.get('puzzleId').length === 0 ||
-      state.get('submission').length === 0;
+    return this.props.submitting ||
+      this.props.puzzleId.length === 0 ||
+      this.props.submission.length === 0;
   }
 
   handleSubmit(event) {
@@ -25,10 +24,8 @@ class SubmitAnswerForm extends React.Component {
   }
 
   render() {
-    const state = this.props.state;
-
     const inputAttrs = {};
-    if (state.has('submitting')) {
+    if (this.props.submitting) {
       inputAttrs.disabled = 'disabled';
     }
 
@@ -38,10 +35,10 @@ class SubmitAnswerForm extends React.Component {
     }
 
     let errorDiv = '';
-    if (state.has('errorText')) {
+    if (this.props.errorText) {
       errorDiv = (
         <div className="error-text-container">
-          {state.get('errorText')}
+          {this.props.errorText}
         </div>
       );
     }
@@ -55,22 +52,22 @@ class SubmitAnswerForm extends React.Component {
             </button>
             <select
               className="hunt-box-element"
-              value={state.get('teamId')}
+              value={this.props.teamId}
               onChange={this.props.changeTeam}
               {...inputAttrs}
             >
-              {state.get('teamIds').map(teamId => (
+              {this.props.teamIds.map(teamId => (
                 <option key={teamId} value={teamId}>{teamId}</option>
               ))}
             </select>
 
             <select
               className="hunt-box-element"
-              value={state.get('puzzleId')}
+              value={this.props.puzzleId}
               onChange={this.props.changePuzzle}
               {...inputAttrs}
             >
-              {state.get('puzzleIds').map(puzzleId => (
+              {this.props.puzzleIds.map(puzzleId => (
                 <option key={puzzleId} value={puzzleId}>{puzzleId}</option>
               ))}
             </select>
@@ -78,7 +75,7 @@ class SubmitAnswerForm extends React.Component {
             <input
               className="hunt-box-element"
               type="text"
-              value={state.get('submission')}
+              value={this.props.submission}
               onChange={this.props.changeSubmission}
               {...inputAttrs}
             />
@@ -93,9 +90,17 @@ class SubmitAnswerForm extends React.Component {
 }
 
 export const SubmitAnswerFormContainer = connect(
-  state => ({ state: state.get('submitAnswerForm') }),
+  state => ({
+    errorText: state.get('errorText'),
+    teamIds: state.getIn(['common', 'teamIds']),
+    teamId: state.getIn(['submitAnswerForm', 'teamId']),
+    puzzleIds: state.getIn(['submitAnswerForm', 'puzzleIds']),
+    puzzleId: state.getIn(['submitAnswerForm', 'puzzleId']),
+    submission: state.getIn(['submitAnswerForm', 'submission']),
+    submitting: state.getIn(['submitAnswerForm', 'submitting']),
+  }),
   {
-    refresh: actions.refreshTeams,
+    refresh: actions.fetchPuzzles,
     changeTeam: event => actions.changeTeam(event.target.value),
     changePuzzle: event => actions.changePuzzle(event.target.value),
     changeSubmission: event => actions.changeSubmission(event.target.value),

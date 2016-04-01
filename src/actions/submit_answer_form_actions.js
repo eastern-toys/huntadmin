@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { fetchToAction } from './action_utils';
 
-export function refreshPuzzles() {
+export function fetchPuzzles() {
   return (dispatch, getState) => {
     const teamId = getState().getIn(['submitAnswerForm', 'teamId']);
     return fetchToAction(
@@ -20,27 +20,13 @@ export function refreshPuzzles() {
   };
 }
 
-export function refreshTeams() {
-  return dispatch => fetchToAction(
-    new Request(`${CUBE_API_SERVER}/teams`, { mode: 'cors' }),
-    'SUBMIT_ANSWER_FORM_FETCH_TEAMS',
-    (json, action) => ({
-      ...action,
-      teamIds: _.map(json.teams, _.property('teamId')),
-    }))
-    .then(action => {
-      dispatch(action);
-      return dispatch(refreshPuzzles());
-    });
-}
-
 export function changeTeam(teamId) {
   return dispatch => {
     dispatch({
       type: 'SUBMIT_ANSWER_FORM_CHANGE_TEAM',
       teamId,
     });
-    return dispatch(refreshPuzzles());
+    return dispatch(fetchPuzzles());
   };
 }
 

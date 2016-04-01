@@ -26,11 +26,11 @@ class TeamPicker extends React.Component {
 
 class PuzzleRow extends React.Component {
   render() {
-    const state = this.props.state;
+    const visibility = this.props.visibility;
     return (
       <tr>
-        <td>{state.get('puzzleId')}</td>
-        <td>{state.get('status')}</td>
+        <td>{visibility.get('puzzleId')}</td>
+        <td>{visibility.get('status')}</td>
       </tr>
     );
   }
@@ -38,14 +38,12 @@ class PuzzleRow extends React.Component {
 
 class TeamStatus extends React.Component {
   render() {
-    const state = this.props.state;
-
     return (
       <div>
         <div className="hunt-box-row">
           <TeamPicker
-            teamId={state.get('teamId')}
-            teamIds={state.get('teamIds')}
+            teamId={this.props.teamId}
+            teamIds={this.props.teamIds}
             refresh={this.props.refresh}
             changeTeam={this.props.changeTeam}
           />
@@ -58,10 +56,10 @@ class TeamStatus extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {state.get('visibilities').map(visibility =>
+            {this.props.visibilities.map(visibility =>
               <PuzzleRow
                 key={visibility.get('puzzleId')}
-                state={visibility}
+                visibility={visibility}
               />
             )}
           </tbody>
@@ -72,8 +70,12 @@ class TeamStatus extends React.Component {
 }
 
 export const TeamStatusContainer = connect(
-  state => ({ state: state.get('teamStatus') }),
+  state => ({
+    teamIds: state.getIn(['common', 'teamIds']),
+    teamId: state.getIn(['teamStatus', 'teamId']),
+    visibilities: state.getIn(['teamStatus', 'visibilities']),
+  }),
   {
-    refresh: actions.refreshTeams,
+    refresh: actions.fetchVisibilities,
     changeTeam: event => actions.changeTeam(event.target.value),
   })(TeamStatus);

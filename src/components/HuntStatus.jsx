@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { ScatterChart } from './ScatterChart';
 import { TimestampedEventChart } from './TimestampedEventChart';
 
-import * as actions from '../actions/hunt_status_actions.js';
+import * as actions from '../actions/common_actions.js';
 
 class Refresher extends React.Component {
   render() {
@@ -21,9 +21,8 @@ class Refresher extends React.Component {
 
 class HuntStatus extends React.Component {
   render() {
-    const state = this.props.state;
-    const visibilityChanges = state.get('visibilityChanges').toJS();
-    const submissions = state.get('submissions').toJS();
+    const submissions = this.props.submissions.toJS();
+    const visibilityChanges = this.props.visibilityChanges.toJS();
 
     const solvesByTeamData = _.chain(visibilityChanges)
       .filter(change => change.status === 'SOLVED')
@@ -92,7 +91,10 @@ class HuntStatus extends React.Component {
 }
 
 export const HuntStatusContainer = connect(
-  state => ({ state: state.get('huntStatus') }),
+  state => ({
+    submissions: state.getIn(['common', 'submissions']),
+    visibilityChanges: state.getIn(['common', 'visibilityChanges']),
+  }),
   {
     refresh: actions.refresh,
   })(HuntStatus);

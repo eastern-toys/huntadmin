@@ -1,18 +1,10 @@
-export function checkForError(state, action) {
-  if (action.error) {
-    return state.set('errorText', action.error);
-  } else if (state.has('errorText')) {
-    return state.delete('errorText');
-  }
-  return state;
-}
+import _ from 'lodash';
 
-export function setListDefault(state, listProperty, valueProperty) {
-  const list = state.get(listProperty);
+export function setListDefault(state, allowedValues, valueProperty) {
   const value = state.get(valueProperty);
-  if (!list.includes(value)) {
-    if (list.size > 0) {
-      return state.set(valueProperty, list.get(0));
+  if (!_.includes(allowedValues, value)) {
+    if (allowedValues.length > 0) {
+      return state.set(valueProperty, allowedValues[0]);
     }
     return state.set(valueProperty, '');
   }
