@@ -1,23 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { timestampToString } from '../util/timestamp';
 
 import * as callQueueActions from '../actions/call_queue_actions.js';
 import * as commonActions from '../actions/common_actions.js';
-
-const DATE_STRING_OPTIONS = {
-  month: 'short',
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
-};
-
-function timestampToString(timestamp) {
-  if (!timestamp) {
-    return 'never';
-  }
-  return new Date(timestamp).toLocaleDateString('en', DATE_STRING_OPTIONS);
-}
 
 class RefreshControls extends React.Component {
   render() {
