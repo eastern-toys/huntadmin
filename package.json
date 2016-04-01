@@ -47,7 +47,8 @@
   "eslintConfig": {
     "extends": "airbnb",
     "globals": {
-      "CUBE_API_SERVER": true
+      "CUBE_API_SERVER": true,
+      "DEBUG": true
     },
     "parserOptions": {
       "ecmaFeatures": {
@@ -69,7 +70,7 @@
     }
   },
   "scripts": {
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack -p --config webpack-production.config.js",
     "dev-server": "webpack-dev-server",
     "eslint": "eslint --ext .js,.jsx src/** test/**.js",
     "test": "mocha --compilers js:babel-core/register --require test/test_setup.js test/**"

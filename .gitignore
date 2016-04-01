@@ -1,3 +1,6 @@
 npm-debug.log
-dist/bundle.js
+
 node_modules
+
+dist/bundle.js
+dist/bundle.js.map
