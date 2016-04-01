@@ -6,11 +6,6 @@ import * as actions from '../actions/common_actions.js';
 
 class AutoRefreshControls extends React.Component {
   render() {
-    const autoRefreshAttrs = {};
-    if (this.props.autoRefresh) {
-      autoRefreshAttrs.checked = true;
-    }
-
     return (
       <div className="hunt-box-section">
         <button className="hunt-box-element" onClick={this.props.refresh}>Refresh Now</button>
@@ -20,7 +15,7 @@ class AutoRefreshControls extends React.Component {
         <input
           className="hunt-box-element"
           type="checkbox"
-          {...autoRefreshAttrs}
+          checked={this.props.autoRefresh}
           onChange={this.props.toggleAutoRefresh}
         />
         <span>auto refresh</span>

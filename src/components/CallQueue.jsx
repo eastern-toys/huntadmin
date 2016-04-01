@@ -8,17 +8,12 @@ import * as actions from '../actions/call_queue_actions.js';
 
 class ShowControls extends React.Component {
   render() {
-    const showCompleteAttrs = {};
-    if (this.props.showComplete) {
-      showCompleteAttrs.checked = true;
-    }
-
     return (
       <div className="hunt-box-section">
         <input
           className="hunt-box-element"
           type="checkbox"
-          {...showCompleteAttrs}
+          checked={this.props.showComplete}
           onChange={this.props.toggleShowComplete}
         />
         <span>show complete submissions</span>
