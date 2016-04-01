@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
-import { App } from './components/App';
+import { AppContainer } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
 import { Home } from './components/Home';
 import { HuntStatusContainer } from './components/HuntStatus';
@@ -38,7 +38,7 @@ store.dispatch(dispatch =>
   ])));
 
 const routes = (
-  <Route path="/" component={App}>
+  <Route path="/" component={AppContainer}>
     <IndexRoute component={Home} />
     <Route path="callqueue" component={CallQueueContainer} />
     <Route path="huntstatus" component={HuntStatusContainer} />

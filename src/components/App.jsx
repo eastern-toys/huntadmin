@@ -1,8 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-export class App extends React.Component {
+import * as actions from '../actions/app_actions.js';
+
+class App extends React.Component {
   render() {
+    let errorBar = '';
+    if (this.props.errorText) {
+      errorBar = (
+        <div className="error-bar">
+          <span>{this.props.errorText}</span>
+          <button type="button" onClick={this.props.dismissError}>
+            Dismiss
+          </button>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="navbar">
@@ -22,8 +36,17 @@ export class App extends React.Component {
             Mystery Hunt Admin Console
           </div>
         </div>
+        {errorBar}
         {this.props.children}
       </div>
     );
   }
 }
+
+export const AppContainer = connect(
+  state => ({
+    errorText: state.get('errorText'),
+  }),
+  {
+    dismissError: actions.dismissError,
+  })(App);

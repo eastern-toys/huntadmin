@@ -24,6 +24,18 @@ body {
     padding: 0.5em;
 }
 
+.error-bar {
+    border: 2px solid red;
+    margin-top: 1em;
+    padding: 0.5em;
+    background-color: #ffcccc;
+    color: red;
+}
+
+.error-bar button {
+    margin-left: 1em;
+}
+
 .hunt-box-row {
     display: flex;
     align-items: center;
@@ -84,9 +96,4 @@ body {
 .chart-text line {
     fill: none;
     stroke: #000;
-}
-
-.error-text-container {
-    margin-top: 1em;
-    color: red;
 }

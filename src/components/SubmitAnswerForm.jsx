@@ -34,15 +34,6 @@ class SubmitAnswerForm extends React.Component {
       submitAttrs.disabled = 'disabled';
     }
 
-    let errorDiv = '';
-    if (this.props.errorText) {
-      errorDiv = (
-        <div className="error-text-container">
-          {this.props.errorText}
-        </div>
-      );
-    }
-
     return (
       <div>
         <div className="hunt-box-row">
@@ -83,7 +74,6 @@ class SubmitAnswerForm extends React.Component {
             <input className="hunt-box-element" type="submit" {...submitAttrs} />
           </form>
         </div>
-        {errorDiv}
       </div>
     );
   }
@@ -91,7 +81,6 @@ class SubmitAnswerForm extends React.Component {
 
 export const SubmitAnswerFormContainer = connect(
   state => ({
-    errorText: state.get('errorText'),
     teamIds: state.getIn(['common', 'teamIds']),
     teamId: state.getIn(['submitAnswerForm', 'teamId']),
     puzzleIds: state.getIn(['submitAnswerForm', 'puzzleIds']),

@@ -141,15 +141,6 @@ function isCompleteStatus(status) {
 
 class CallQueue extends React.Component {
   render() {
-    let errorDiv = '';
-    if (this.props.errorText !== null) {
-      errorDiv = (
-        <div className="error-text-container">
-          {this.props.errorText}
-        </div>
-      );
-    }
-
     return (
       <div>
         <div className="hunt-box-row">
@@ -164,7 +155,6 @@ class CallQueue extends React.Component {
             toggleShowComplete={this.props.toggleShowComplete}
           />
         </div>
-        {errorDiv}
         <table className="hunt-table">
           <thead>
             <tr>
@@ -194,7 +184,6 @@ class CallQueue extends React.Component {
 
 export const CallQueueContainer = connect(
   state => ({
-    errorText: state.get('errorText'),
     submissions: state.getIn(['common', 'submissions']),
     autoRefresh: state.getIn(['common', 'autoRefresh']),
     refreshTimestamp: state.getIn(['common', 'refreshTimestamp']),
