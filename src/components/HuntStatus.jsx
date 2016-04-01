@@ -2,22 +2,9 @@ import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { AutoRefreshControlsContainer } from './AutoRefreshControls';
 import { ScatterChart } from './ScatterChart';
 import { TimestampedEventChart } from './TimestampedEventChart';
-
-import * as actions from '../actions/common_actions.js';
-
-class Refresher extends React.Component {
-  render() {
-    return (
-      <div className="hunt-box-section">
-        <button className="hunt-box-element" type="button" onClick={this.props.refresh}>
-          Refresh Now
-        </button>
-      </div>
-    );
-  }
-}
 
 class HuntStatus extends React.Component {
   render() {
@@ -55,9 +42,7 @@ class HuntStatus extends React.Component {
     return (
       <div>
         <div className="hunt-box-row">
-          <Refresher
-            refresh={this.props.refresh}
-          />
+          <AutoRefreshControlsContainer />
         </div>
         <TimestampedEventChart
           title="Solves by Team"
@@ -95,6 +80,4 @@ export const HuntStatusContainer = connect(
     submissions: state.getIn(['common', 'submissions']),
     visibilityChanges: state.getIn(['common', 'visibilityChanges']),
   }),
-  {
-    refresh: actions.refresh,
-  })(HuntStatus);
+  {})(HuntStatus);

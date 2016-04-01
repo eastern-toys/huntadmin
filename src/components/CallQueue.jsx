@@ -2,33 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { timestampToString } from '../util/timestamp';
 
-import * as callQueueActions from '../actions/call_queue_actions.js';
-import * as commonActions from '../actions/common_actions.js';
+import { AutoRefreshControlsContainer } from './AutoRefreshControls';
 
-class RefreshControls extends React.Component {
-  render() {
-    const autoRefreshAttrs = {};
-    if (this.props.autoRefresh) {
-      autoRefreshAttrs.checked = true;
-    }
-
-    return (
-      <div className="hunt-box-section">
-        <button className="hunt-box-element" onClick={this.props.refresh}>Refresh Now</button>
-        <span className="hunt-box-element">
-          Last refreshed {timestampToString(this.props.refreshTimestamp)}
-        </span>
-        <input
-          className="hunt-box-element"
-          type="checkbox"
-          {...autoRefreshAttrs}
-          onChange={this.props.toggleAutoRefresh}
-        />
-        <span>auto refresh</span>
-      </div>
-    );
-  }
-}
+import * as actions from '../actions/call_queue_actions.js';
 
 class ShowControls extends React.Component {
   render() {
@@ -130,12 +106,7 @@ class CallQueue extends React.Component {
     return (
       <div>
         <div className="hunt-box-row">
-          <RefreshControls
-            refreshTimestamp={this.props.refreshTimestamp}
-            autoRefresh={this.props.autoRefresh}
-            refresh={this.props.refresh}
-            toggleAutoRefresh={this.props.toggleAutoRefresh}
-          />
+          <AutoRefreshControlsContainer />
           <ShowControls
             showComplete={this.props.showComplete}
             toggleShowComplete={this.props.toggleShowComplete}
@@ -171,13 +142,9 @@ class CallQueue extends React.Component {
 export const CallQueueContainer = connect(
   state => ({
     submissions: state.getIn(['common', 'submissions']),
-    autoRefresh: state.getIn(['common', 'autoRefresh']),
-    refreshTimestamp: state.getIn(['common', 'refreshTimestamp']),
     showComplete: state.getIn(['callQueue', 'showComplete']),
   }),
   {
-    refresh: commonActions.refresh,
-    toggleAutoRefresh: commonActions.toggleAutoRefresh,
-    toggleShowComplete: callQueueActions.toggleShowComplete,
-    setStatus: callQueueActions.setStatus,
+    toggleShowComplete: actions.toggleShowComplete,
+    setStatus: actions.setStatus,
   })(CallQueue);
