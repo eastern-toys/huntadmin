@@ -32,7 +32,7 @@ describe('team status action creator', () => {
       ];
       const fetchStub = stubFetchSuccess(sandbox, { visibilities });
 
-      store.dispatch(actions.refreshVisibilities())
+      store.dispatch(actions.fetchVisibilities())
         .then(() => {
           assert.equal(
             fetchStub.args[0][0].url,
@@ -57,7 +57,7 @@ describe('team status action creator', () => {
 
       const fetchStub = stubFetchFailure(sandbox, 400);
 
-      store.dispatch(actions.refreshVisibilities())
+      store.dispatch(actions.fetchVisibilities())
         .then(() => {
           assert.equal(
             fetchStub.args[0][0].url,

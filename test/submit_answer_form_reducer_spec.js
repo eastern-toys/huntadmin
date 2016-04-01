@@ -1,20 +1,17 @@
 import { assert } from 'chai';
-import { List, Map } from 'immutable';
+import { Map } from 'immutable';
 
 import reducer from '../src/reducers/submit_answer_form_reducer';
 
 describe('submit answer form reducer', () => {
-  it('handles SUBMIT_ANSWER_FORM_FETCH_TEAMS', () => {
-    const teamIds = ['team1', 'team2'];
-
+  it('handles SUBMIT_ANSWER_FORM_CHANGE_TEAM', () => {
     const initialState = new Map();
     const action = {
-      type: 'SUBMIT_ANSWER_FORM_FETCH_TEAMS',
-      teamIds,
+      type: 'SUBMIT_ANSWER_FORM_CHANGE_TEAM',
+      teamId: 'myteam',
     };
     const nextState = reducer(initialState, action);
 
-    assert.equal(nextState.get('teamIds'), new List(teamIds));
-    assert.equal(nextState.get('teamId'), teamIds[0]);
+    assert.equal(nextState.get('teamId'), 'myteam');
   });
 });
