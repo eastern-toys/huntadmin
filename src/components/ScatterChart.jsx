@@ -49,8 +49,12 @@ export class ScatterChart extends React.Component {
 
   makeXScale() {
     const values = _.map(this.props.data, _.property('x'));
+    let maxValue = _.max(values);
+    if (maxValue === undefined) {
+      maxValue = 1;
+    }
     return d3.scale.linear()
-      .domain([0, _.max(values)])
+      .domain([0, maxValue])
       .range([
         this.props.axisSize,
         this.props.width - this.props.axisSize - this.props.paddingRight,
@@ -59,8 +63,12 @@ export class ScatterChart extends React.Component {
 
   makeYScale() {
     const values = _.map(this.props.data, _.property('y'));
+    let maxValue = _.max(values);
+    if (maxValue === undefined) {
+      maxValue = 1;
+    }
     return d3.scale.linear()
-      .domain([0, _.max(values)])
+      .domain([0, maxValue])
       .range([this.props.height - this.props.axisSize, this.props.axisSize]);
   }
 
@@ -83,10 +91,6 @@ export class ScatterChart extends React.Component {
   }
 
   render() {
-    if (this.props.data.length === 0) {
-      return <div className="chart-container"></div>;
-    }
-
     const xScale = this.makeXScale();
     const yScale = this.makeYScale();
 
