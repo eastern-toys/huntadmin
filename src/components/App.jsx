@@ -29,8 +29,8 @@ class App extends React.Component {
           <Link to={'/teamstatus'} activeClassName="active">
             Team Status
           </Link>
-          <Link to={'/submitanswer'} activeClassName="active">
-            Submit Answer
+          <Link to={'/admintools'} activeClassName="active">
+            Admin Tools
           </Link>
           <div className="status">
             Mystery Hunt Admin Console

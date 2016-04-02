@@ -53,6 +53,22 @@ body {
     margin-left: 1em;
 }
 
+.floating-hunt-box-section {
+    margin-top: 1em;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5em;
+    background-color: #cccccc;
+}
+
+.floating-hunt-box-section + .floating-hunt-box-section {
+    margin-left: 1em;
+}
+
+.hunt-box-title {
+    font-weight: bold;
+}
+
 .hunt-box-element + .hunt-box-element {
     margin-left: 1em;
 }

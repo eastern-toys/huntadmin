@@ -8,11 +8,11 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
+import { AdminTools } from './components/AdminTools';
 import { AppContainer } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
 import { Home } from './components/Home';
 import { HuntStatusContainer } from './components/HuntStatus';
-import { SubmitAnswerFormContainer } from './components/SubmitAnswerForm';
 import { TeamStatusContainer } from './components/TeamStatus';
 
 import reducer from './reducers/reducer';
@@ -45,10 +45,10 @@ store.dispatch(dispatch =>
 const routes = (
   <Route path="/" component={AppContainer}>
     <IndexRoute component={Home} />
+    <Route path="admintools" component={AdminTools} />
     <Route path="callqueue" component={CallQueueContainer} />
     <Route path="huntstatus" component={HuntStatusContainer} />
     <Route path="teamstatus" component={TeamStatusContainer} />
-    <Route path="submitanswer" component={SubmitAnswerFormContainer} />
   </Route>
 );
 
