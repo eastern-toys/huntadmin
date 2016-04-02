@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 
 import { AutoRefreshControlsContainer } from './AutoRefreshControls';
@@ -7,6 +8,10 @@ import { ScatterChart } from './ScatterChart';
 import { TimestampedEventChart } from './TimestampedEventChart';
 
 class HuntStatus extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     const submissions = this.props.submissions.toJS();
     const visibilityChanges = this.props.visibilityChanges.toJS();

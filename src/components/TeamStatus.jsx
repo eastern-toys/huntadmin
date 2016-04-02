@@ -1,9 +1,14 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions/team_status_actions.js';
 
 class TeamPicker extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     return (
       <div className="hunt-box-section">
@@ -25,6 +30,10 @@ class TeamPicker extends React.Component {
 }
 
 class PuzzleRow extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     const visibility = this.props.visibility;
     return (
@@ -37,6 +46,10 @@ class PuzzleRow extends React.Component {
 }
 
 class TeamStatus extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     return (
       <div>

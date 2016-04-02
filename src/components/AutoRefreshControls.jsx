@@ -1,10 +1,15 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { timestampToString } from '../util/timestamp';
 
 import * as actions from '../actions/common_actions.js';
 
 class AutoRefreshControls extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     return (
       <div className="hunt-box-section">

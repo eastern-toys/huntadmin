@@ -1,10 +1,15 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import * as actions from '../actions/app_actions.js';
 
 class App extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     let errorBar = '';
     if (this.props.errorText) {

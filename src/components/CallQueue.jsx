@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { timestampToString } from '../util/timestamp';
 
@@ -7,6 +8,10 @@ import { AutoRefreshControlsContainer } from './AutoRefreshControls';
 import * as actions from '../actions/call_queue_actions.js';
 
 class ShowControls extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     return (
       <div className="hunt-box-section">
@@ -28,6 +33,10 @@ class SubmissionRow extends React.Component {
     this.setAssigned = this.setAssigned.bind(this);
     this.setCorrect = this.setCorrect.bind(this);
     this.setIncorrect = this.setIncorrect.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   setStatus(status) {
@@ -97,6 +106,10 @@ function isCompleteStatus(status) {
 }
 
 class CallQueue extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   render() {
     return (
       <div>
