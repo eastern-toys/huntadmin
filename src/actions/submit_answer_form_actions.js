@@ -1,13 +1,11 @@
 import _ from 'lodash';
-import { fetchToAction } from './action_utils';
+import { createGetRequest, createPostRequest, fetchToAction } from './action_utils';
 
 export function fetchPuzzles() {
   return (dispatch, getState) => {
     const teamId = getState().getIn(['submitAnswerForm', 'teamId']);
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/visibilities?teamId=${teamId}`,
-        { mode: 'cors' }),
+      createGetRequest(`visibilities?teamId=${teamId}`),
       'SUBMIT_ANSWER_FORM_FETCH_PUZZLES',
       (json, action) => ({
         ...action,
@@ -50,20 +48,11 @@ export function submit() {
       type: 'SUBMIT_ANSWER_FORM_SUBMIT',
     });
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/submissions`,
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            teamId: getState().getIn(['submitAnswerForm', 'teamId']),
-            puzzleId: getState().getIn(['submitAnswerForm', 'puzzleId']),
-            submission: getState().getIn(['submitAnswerForm', 'submission']),
-          }),
-          method: 'POST',
-          mode: 'cors',
-        }),
+      createPostRequest('submissions', {
+        teamId: getState().getIn(['submitAnswerForm', 'teamId']),
+        puzzleId: getState().getIn(['submitAnswerForm', 'puzzleId']),
+        submission: getState().getIn(['submitAnswerForm', 'submission']),
+      }),
       'SUBMIT_ANSWER_FORM_SUBMIT_DONE',
       (json, action) => action)
       .then(dispatch);

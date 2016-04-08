@@ -1,4 +1,4 @@
-import { fetchToAction } from './action_utils';
+import { createPostRequest, fetchToAction } from './action_utils';
 
 export function startHunt() {
   return dispatch => {
@@ -6,19 +6,10 @@ export function startHunt() {
       type: 'START_HUNT',
     });
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/events`,
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            eventType: 'HuntStart',
-            runId: 'development',
-          }),
-          method: 'POST',
-          mode: 'cors',
-        }),
+      createPostRequest('events', {
+        eventType: 'HuntStart',
+        runId: 'development',
+      }),
       'START_HUNT_DONE',
       (json, action) => action)
       .then(dispatch);

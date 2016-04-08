@@ -2,6 +2,27 @@ import * as promise from 'es6-promise';
 promise.polyfill();
 import 'isomorphic-fetch';
 
+export function createGetRequest(route) {
+  return new Request(
+    `${CUBE_API_SERVER}/${route}`,
+    {
+      mode: 'cors',
+    });
+}
+
+export function createPostRequest(route, body) {
+  return new Request(
+    `${CUBE_API_SERVER}/${route}`,
+    {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify(body),
+      method: 'POST',
+      mode: 'cors',
+    });
+}
+
 export function fetchToAction(request, actionType, actionCreator) {
   const action = {
     type: actionType,

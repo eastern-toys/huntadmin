@@ -1,11 +1,10 @@
-import { fetchToAction } from './action_utils';
+import { createGetRequest, fetchToAction } from './action_utils';
 
 export function fetchVisibilities() {
   return (dispatch, getState) => {
     const teamId = getState().getIn(['teamStatus', 'teamId']);
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/visibilities?teamId=${teamId}`, { mode: 'cors' }),
+      createGetRequest(`visibilities?teamId=${teamId}`),
       'TEAM_STATUS_FETCH_VISIBILITIES',
       (json, action) => ({
         ...action,

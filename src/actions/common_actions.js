@@ -1,10 +1,9 @@
 import _ from 'lodash';
-import { fetchToAction } from './action_utils';
+import { createGetRequest, fetchToAction } from './action_utils';
 
 export function fetchSubmissions() {
   return dispatch => fetchToAction(
-    new Request(
-      `${CUBE_API_SERVER}/submissions`, { mode: 'cors' }),
+    createGetRequest('submissions'),
     'FETCH_SUBMISSIONS',
     (json, action) => ({
       ...action,
@@ -15,8 +14,7 @@ export function fetchSubmissions() {
 
 export function fetchTeams() {
   return dispatch => fetchToAction(
-    new Request(
-      `${CUBE_API_SERVER}/teams`, { mode: 'cors' }),
+    createGetRequest('teams'),
     'FETCH_TEAMS',
     (json, action) => ({
       ...action,
@@ -27,8 +25,7 @@ export function fetchTeams() {
 
 export function fetchVisibilityHistory() {
   return dispatch => fetchToAction(
-    new Request(
-      `${CUBE_API_SERVER}/visibilityhistory`, { mode: 'cors' }),
+    createGetRequest('visibilityhistory'),
     'FETCH_VISIBILITY_HISTORY',
     (json, action) => ({
       ...action,

@@ -1,4 +1,4 @@
-import { fetchToAction } from './action_utils';
+import { createPostRequest, fetchToAction } from './action_utils';
 
 export function toggleShowComplete() {
   return {
@@ -14,18 +14,9 @@ export function setStatus(submissionId, status) {
       status,
     });
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/submissions/${submissionId}`,
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            status,
-          }),
-          method: 'POST',
-          mode: 'cors',
-        }),
+      createPostRequest(`submissions/${submissionId}`, {
+        status,
+      }),
       'SET_SUBMISSION_STATUS_DONE',
       (json, action) => ({
         ...action,

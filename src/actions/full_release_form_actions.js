@@ -1,4 +1,4 @@
-import { fetchToAction } from './action_utils';
+import { createPostRequest, fetchToAction } from './action_utils';
 
 export function changePuzzleId(puzzleId) {
   return {
@@ -13,20 +13,11 @@ export function submit() {
       type: 'FULL_RELEASE_FORM_SUBMIT',
     });
     return fetchToAction(
-      new Request(
-        `${CUBE_API_SERVER}/events`,
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            eventType: 'FullRelease',
-            puzzleId: getState().getIn(['fullReleaseForm', 'puzzleId']),
-            runId: 'development',
-          }),
-          method: 'POST',
-          mode: 'cors',
-        }),
+      createPostRequest('events', {
+        eventType: 'FullRelease',
+        puzzleId: getState().getIn(['fullReleaseForm', 'puzzleId']),
+        runId: 'development',
+      }),
       'FULL_RELEASE_FORM_SUBMIT_DONE',
       (json, action) => action)
       .then(dispatch);
