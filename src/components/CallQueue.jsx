@@ -120,7 +120,7 @@ class CallQueue extends React.Component {
           />
         </div>
         <div className="ha-page-section">
-          <table className="ha-table">
+          <table className="ha-table ha-table-responsive">
             <thead>
               <tr>
                 <th>Submission Time</th>

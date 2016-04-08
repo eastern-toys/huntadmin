@@ -89,6 +89,30 @@ body {
     background-color: #eeeeee;
 }
 
+@media (max-width: 600px) {
+    .ha-table-responsive table,
+    .ha-table-responsive tbody,
+    .ha-table-responsive td,
+    .ha-table-responsive tr {
+        display: block;
+    }
+
+    .ha-table-responsive thead,
+    .ha-table-responsive th {
+        display: none;
+    }
+
+    .ha-table-responsive tr {
+        height: auto;
+        padding: 0.5em;
+    }
+
+    .ha-table-responsive td {
+        border: none;
+        position: relative;
+    }
+}
+
 .ha-chart-container {
     display: flex;
     flex-direction: column;
