@@ -12,7 +12,7 @@ export class AdminTools extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="ha-control-boxes-container">
         <SubmitAnswerFormContainer />
         <StartHuntButtonContainer />
         <FullReleaseFormContainer />

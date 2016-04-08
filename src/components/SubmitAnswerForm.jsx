@@ -40,45 +40,42 @@ class SubmitAnswerForm extends React.Component {
     }
 
     return (
-      <div className="floating-hunt-box-section">
-        <form onSubmit={this.handleSubmit}>
-          <span className="hunt-box-element hunt-box-title">Submit Answer</span>
-          <button className="hunt-box-element" type="button" onClick={this.props.refresh}>
-            Refresh Now
-          </button>
-          <select
-            className="hunt-box-element"
-            value={this.props.teamId}
-            onChange={this.props.changeTeam}
-            {...inputAttrs}
-          >
-            {this.props.teamIds.map(teamId => (
-              <option key={teamId} value={teamId}>{teamId}</option>
-            ))}
-          </select>
+      <form className="ha-control-box" onSubmit={this.handleSubmit}>
+        <span className="ha-control-box-title">
+          Submit Answer
+        </span>
+        <button type="button" onClick={this.props.refresh}>
+          Refresh Now
+        </button>
+        <select
+          value={this.props.teamId}
+          onChange={this.props.changeTeam}
+          {...inputAttrs}
+        >
+          {this.props.teamIds.map(teamId => (
+            <option key={teamId} value={teamId}>{teamId}</option>
+          ))}
+        </select>
 
-          <select
-            className="hunt-box-element"
-            value={this.props.puzzleId}
-            onChange={this.props.changePuzzle}
-            {...inputAttrs}
-          >
-            {this.props.puzzleIds.map(puzzleId => (
-              <option key={puzzleId} value={puzzleId}>{puzzleId}</option>
-            ))}
-          </select>
+        <select
+          value={this.props.puzzleId}
+          onChange={this.props.changePuzzle}
+          {...inputAttrs}
+        >
+          {this.props.puzzleIds.map(puzzleId => (
+            <option key={puzzleId} value={puzzleId}>{puzzleId}</option>
+          ))}
+        </select>
 
-          <input
-            className="hunt-box-element"
-            type="text"
-            value={this.props.submission}
-            onChange={this.props.changeSubmission}
-            {...inputAttrs}
-          />
+        <input
+          type="text"
+          value={this.props.submission}
+          onChange={this.props.changeSubmission}
+          {...inputAttrs}
+        />
 
-          <input className="hunt-box-element" type="submit" {...submitAttrs} />
-        </form>
-      </div>
+        <input type="submit" {...submitAttrs} />
+      </form>
     );
   }
 }

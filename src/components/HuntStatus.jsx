@@ -46,7 +46,7 @@ class HuntStatus extends React.Component {
 
     return (
       <div>
-        <div className="hunt-box-row">
+        <div className="ha-control-boxes-container">
           <AutoRefreshControlsContainer />
         </div>
         <TimestampedEventChart

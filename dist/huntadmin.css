@@ -1,115 +1,107 @@
 body {
+    margin: 0;
     font-family: Helvetica;
 }
 
-.navbar {
+.ha-navbar {
     display: flex;
     background-color: #cccccc;
 }
 
-.navbar a {
+.ha-navbar * {
     padding: 0.5em;
+}
+
+.ha-navbar a {
     color: black;
     text-decoration: none;
 }
 
-.navbar a.active {
-    font-weight: bold;
+.ha-navbar a.active {
     background-color: #aaaaaa;
 }
 
-.navbar .status {
-    flex: 1;
-    text-align: right;
-    padding: 0.5em;
+.ha-navbar-title {
+    margin-left: auto;
 }
 
-.error-bar {
+.ha-page-section {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.ha-error-bar {
     border: 2px solid red;
-    margin-top: 1em;
-    padding: 0.5em;
     background-color: #ffcccc;
-    color: red;
+    color: #ff0000;
 }
 
-.error-bar button {
-    margin-left: 1em;
+.ha-error-bar * {
+    margin: 0.5em;
 }
 
-.hunt-box-row {
+.ha-control-boxes-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.ha-control-box {
     display: flex;
     align-items: center;
     margin-top: 1em;
-}
-
-.hunt-box-section {
-    display: flex;
-    align-items: center;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
     padding: 0.5em;
     background-color: #cccccc;
 }
 
-.hunt-box-section + .hunt-box-section {
-    margin-left: 1em;
+.ha-control-box * + * {
+    margin-left: 0.5em;
 }
 
-.floating-hunt-box-section {
-    margin-top: 1em;
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5em;
-    background-color: #cccccc;
-}
-
-.floating-hunt-box-section + .floating-hunt-box-section {
-    margin-left: 1em;
-}
-
-.hunt-box-title {
+.ha-control-box-title {
     font-weight: bold;
 }
 
-.hunt-box-element + .hunt-box-element {
-    margin-left: 1em;
-}
-
-.hunt-table {
-    margin-top: 1em;
+.ha-table {
     width: 100%;
-    border: 1px solid #888888;
     table-layout: fixed;
+    border: 1px solid #888888;
 }
 
-.hunt-table thead {
+.ha-table thead {
     background-color: #cccccc;
 }
 
-.hunt-table td {
+.ha-table td {
     text-align: center;
 }
 
-.hunt-table tr {
+.ha-table tr {
     height: 1.5em;
 }
 
-.hunt-table tr:nth-child(even) {
+.ha-table tr:nth-child(even) {
     background-color: #eeeeee;
 }
 
-.chart-container {
-    margin-top: 1em;
+.ha-chart-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.chart-text {
+.ha-chart-text {
     font-size: 12px;
 }
 
-.chart-text path,
-.chart-text line {
+.ha-chart-text path,
+.ha-chart-text line {
     fill: none;
     stroke: #000;
 }

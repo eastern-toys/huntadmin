@@ -11,12 +11,11 @@ class TeamPicker extends React.Component {
 
   render() {
     return (
-      <div className="hunt-box-section">
-        <button className="hunt-box-element" type="button" onClick={this.props.refresh}>
+      <div className="ha-control-box">
+        <button type="button" onClick={this.props.refresh}>
           Refresh Now
         </button>
         <select
-          className="hunt-box-element"
           value={this.props.teamId}
           onChange={this.props.changeTeam}
         >
@@ -53,7 +52,7 @@ class TeamStatus extends React.Component {
   render() {
     return (
       <div>
-        <div className="hunt-box-row">
+        <div className="ha-control-boxes-container">
           <TeamPicker
             teamId={this.props.teamId}
             teamIds={this.props.teamIds}
@@ -61,22 +60,24 @@ class TeamStatus extends React.Component {
             changeTeam={this.props.changeTeam}
           />
         </div>
-        <table className="hunt-table">
-          <thead>
-            <tr>
-              <th>Puzzle</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.visibilities.map(visibility =>
-              <PuzzleRow
-                key={visibility.get('puzzleId')}
-                visibility={visibility}
-              />
-            )}
-          </tbody>
-        </table>
+        <div className="ha-page-section">
+          <table className="ha-table">
+            <thead>
+              <tr>
+                <th>Puzzle</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.visibilities.map(visibility =>
+                <PuzzleRow
+                  key={visibility.get('puzzleId')}
+                  visibility={visibility}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

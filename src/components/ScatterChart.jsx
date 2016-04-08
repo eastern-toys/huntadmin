@@ -13,7 +13,7 @@ class ScatterSeries extends React.Component {
           if (d.label) {
             label = (
               <text
-                className="chart-text"
+                className="ha-chart-text"
                 x={this.props.xScale(d.x) + r}
                 y={this.props.yScale(d.y)}
               >
@@ -101,17 +101,17 @@ export class ScatterChart extends React.Component {
     const yAxisLabelY = yScale(yScale.domain()[1] / 2);
 
     return (
-      <div className="chart-container">
+      <div className="ha-page-section ha-chart-container">
         <h3>{this.props.title}</h3>
         <svg width={this.props.width} height={this.props.height}>
           <g
             ref="xAxis"
-            className="chart-text"
+            className="ha-chart-text"
             height={this.props.axisSize}
             transform={`translate(0, ${xAxisYTranslation})`}
           />
           <text
-            className="chart-text"
+            className="ha-chart-text"
             textAnchor="middle"
             x={xAxisLabelX}
             y={this.props.height - 1}
@@ -120,12 +120,12 @@ export class ScatterChart extends React.Component {
           </text>
           <g
             ref="yAxis"
-            className="chart-text"
+            className="ha-chart-text"
             width={this.props.axisSize}
             transform={`translate(${yAxisXTranslation}, 0)`}
           />
           <text
-            className="chart-text"
+            className="ha-chart-text"
             textAnchor="middle"
             transform={`rotate(-90) translate(-${yAxisLabelY},10)`}
           >

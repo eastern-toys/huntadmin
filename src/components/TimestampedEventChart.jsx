@@ -36,7 +36,7 @@ class TimestampSeries extends React.Component {
           fill="none"
         />
         <text
-          className="chart-text"
+          className="ha-chart-text"
           x={textX}
           y={textY}
           fill={this.props.color}
@@ -117,18 +117,18 @@ export class TimestampedEventChart extends React.Component {
     const yAxisXTranslation = this.props.axisSize;
 
     return (
-      <div className="chart-container">
+      <div className="ha-page-section ha-chart-container">
         <h3>{this.props.title}</h3>
         <svg width={this.props.width} height={this.props.height}>
           <g
             ref="xAxis"
-            className="chart-text"
+            className="ha-chart-text"
             height={this.props.axisSize}
             transform={`translate(0, ${xAxisYTranslation})`}
           />
           <g
             ref="yAxis"
-            className="chart-text"
+            className="ha-chart-text"
             width={this.props.axisSize}
             transform={`translate(${yAxisXTranslation}, 0)`}
           />

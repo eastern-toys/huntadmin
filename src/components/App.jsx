@@ -14,7 +14,7 @@ class App extends React.Component {
     let errorBar = '';
     if (this.props.errorText) {
       errorBar = (
-        <div className="error-bar">
+        <div className="ha-page-section ha-error-bar">
           <span>{this.props.errorText}</span>
           <button type="button" onClick={this.props.dismissError}>
             Dismiss
@@ -24,7 +24,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <div className="navbar">
+        <div className="ha-navbar">
           <Link to={'/callqueue'} activeClassName="active">
             Call Queue
           </Link>
@@ -37,7 +37,7 @@ class App extends React.Component {
           <Link to={'/admintools'} activeClassName="active">
             Admin Tools
           </Link>
-          <div className="status">
+          <div className="ha-navbar-title">
             Mystery Hunt Admin Console
           </div>
         </div>

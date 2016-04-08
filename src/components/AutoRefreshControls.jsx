@@ -12,13 +12,12 @@ class AutoRefreshControls extends React.Component {
 
   render() {
     return (
-      <div className="hunt-box-section">
-        <button className="hunt-box-element" onClick={this.props.refresh}>Refresh Now</button>
-        <span className="hunt-box-element">
+      <div className="ha-control-box">
+        <button onClick={this.props.refresh}>Refresh Now</button>
+        <span>
           Last refreshed {timestampToString(this.props.refreshTimestamp)}
         </span>
         <input
-          className="hunt-box-element"
           type="checkbox"
           checked={this.props.autoRefresh}
           onChange={this.props.toggleAutoRefresh}

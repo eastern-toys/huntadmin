@@ -14,9 +14,8 @@ class ShowControls extends React.Component {
 
   render() {
     return (
-      <div className="hunt-box-section">
+      <div className="ha-control-box">
         <input
-          className="hunt-box-element"
           type="checkbox"
           checked={this.props.showComplete}
           onChange={this.props.toggleShowComplete}
@@ -113,35 +112,37 @@ class CallQueue extends React.Component {
   render() {
     return (
       <div>
-        <div className="hunt-box-row">
+        <div className="ha-control-boxes-container">
           <AutoRefreshControlsContainer />
           <ShowControls
             showComplete={this.props.showComplete}
             toggleShowComplete={this.props.toggleShowComplete}
           />
         </div>
-        <table className="hunt-table">
-          <thead>
-            <tr>
-              <th>Submission Time</th>
-              <th>Team</th>
-              <th>Puzzle</th>
-              <th>Answer</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.submissions.filter(submission =>
-              this.props.showComplete || !isCompleteStatus(submission.get('status'))
-            ).map(submission =>
-              <SubmissionRow
-                key={submission.get('submissionId')}
-                submission={submission}
-                setStatus={this.props.setStatus}
-              />
-            )}
-          </tbody>
-        </table>
+        <div className="ha-page-section">
+          <table className="ha-table">
+            <thead>
+              <tr>
+                <th>Submission Time</th>
+                <th>Team</th>
+                <th>Puzzle</th>
+                <th>Answer</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.submissions.filter(submission =>
+                this.props.showComplete || !isCompleteStatus(submission.get('status'))
+              ).map(submission =>
+                <SubmissionRow
+                  key={submission.get('submissionId')}
+                  submission={submission}
+                  setStatus={this.props.setStatus}
+                />
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

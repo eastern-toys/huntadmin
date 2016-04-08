@@ -39,19 +39,16 @@ class FullReleaseForm extends React.Component {
     }
 
     return (
-      <div className="floating-hunt-box-section">
-        <form onSubmit={this.handleSubmit}>
-          <span className="hunt-box-element hunt-box-title">Full Puzzle Release</span>
-          <input
-            className="hunt-box-element"
-            type="text"
-            value={this.props.puzzleId}
-            onChange={this.props.changePuzzleId}
-            {...inputAttrs}
-          />
-          <input className="hunt-box-element" type="submit" {...submitAttrs} />
-        </form>
-      </div>
+      <form className="ha-control-box" onSubmit={this.handleSubmit}>
+        <span className="ha-control-box-title">Full Puzzle Release</span>
+        <input
+          type="text"
+          value={this.props.puzzleId}
+          onChange={this.props.changePuzzleId}
+          {...inputAttrs}
+        />
+        <input type="submit" {...submitAttrs} />
+      </form>
     );
   }
 }

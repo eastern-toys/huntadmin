@@ -16,9 +16,8 @@ class StartHuntButton extends React.Component {
     }
 
     return (
-      <div className="floating-hunt-box-section">
+      <div className="ha-control-box">
         <button
-          className="hunt-box-element"
           type="button"
           {...buttonAttrs}
           onClick={this.props.click}
