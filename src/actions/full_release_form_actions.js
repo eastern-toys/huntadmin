@@ -16,7 +16,6 @@ export function submit() {
       createPostRequest('events', {
         eventType: 'FullRelease',
         puzzleId: getState().getIn(['fullReleaseForm', 'puzzleId']),
-        runId: 'development',
       }),
       'FULL_RELEASE_FORM_SUBMIT_DONE',
       (json, action) => action)

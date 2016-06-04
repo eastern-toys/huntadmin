@@ -8,7 +8,6 @@ export function startHunt() {
     return fetchToAction(
       createPostRequest('events', {
         eventType: 'HuntStart',
-        runId: 'development',
       }),
       'START_HUNT_DONE',
       (json, action) => action)

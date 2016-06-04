@@ -23,10 +23,10 @@ export function fetchTeams() {
     .then(dispatch);
 }
 
-export function fetchVisibilityHistory() {
+export function fetchVisibilityChanges() {
   return dispatch => fetchToAction(
-    createGetRequest('visibilityhistory'),
-    'FETCH_VISIBILITY_HISTORY',
+    createGetRequest('visibilitychanges'),
+    'FETCH_VISIBILITY_CHANGES',
     (json, action) => ({
       ...action,
       visibilityChanges: json.visibilityChanges,
@@ -37,7 +37,7 @@ export function fetchVisibilityHistory() {
 export function refresh() {
   return dispatch => Promise.all([
     dispatch(fetchSubmissions()),
-    dispatch(fetchVisibilityHistory()),
+    dispatch(fetchVisibilityChanges()),
   ]).then(() => dispatch({
     type: 'REFRESH_COMPLETE',
     timestamp: Date.now(),

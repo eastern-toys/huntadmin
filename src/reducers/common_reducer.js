@@ -35,7 +35,7 @@ export default function (oldState = INITIAL_STATE, action) {
     }
     return state;
 
-  case 'FETCH_VISIBILITY_HISTORY':
+  case 'FETCH_VISIBILITY_CHANGES':
     if (action.visibilityChanges) {
       state = state.set('visibilityChanges', fromJS(action.visibilityChanges));
     }
