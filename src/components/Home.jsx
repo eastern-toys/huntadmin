@@ -8,7 +8,9 @@ export class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="ha-page-section">
+        This is the administration web app. Choose a section from the menu on
+        top of this page.
       </div>
     );
   }

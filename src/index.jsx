@@ -18,6 +18,8 @@ import { TeamStatusContainer } from './components/TeamStatus';
 
 import reducer from './reducers/reducer';
 
+import { userMayAccess } from './util/user.js';
+
 let middleware;
 if (DEBUG) {
   const loggerMiddleware = createLogger({
@@ -31,7 +33,14 @@ if (DEBUG) {
 const store = createStore(reducer, new Map(), middleware);
 
 function requireAuth(nextState, replace) {
-  if (!store.getState().getIn(['auth', 'loggedIn'])) {
+  const user = store.getState().getIn(['auth', 'user']);
+  if (user) {
+    if (!userMayAccess(user, nextState.location.pathname)) {
+      replace({
+        pathname: '/',
+      });
+    }
+  } else {
     replace({
       pathname: '/login',
     });

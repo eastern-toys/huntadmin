@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 
 import * as actions from '../actions/app_actions.js';
+import { userMayAccess } from '../util/user.js';
 
 class App extends React.Component {
   constructor() {
@@ -35,16 +37,22 @@ class App extends React.Component {
 
     let links;
     let logoutLink = '';
-    if (this.props.loggedIn) {
-      links = [
+    if (this.props.user) {
+      const allLinks = [
         { link: '/callqueue', title: 'Call Queue' },
         { link: '/huntstatus', title: 'Hunt Status' },
         { link: '/teamstatus', title: 'Team Status' },
         { link: '/admintools', title: 'Admin Tools' },
       ];
+      links = _.filter(
+        allLinks,
+        link => userMayAccess(this.props.user, link.link));
+
       logoutLink = (
         <span>
-          &ndash;
+          &ndash; &nbsp;
+          {this.props.user.get('username')}
+          &nbsp; &ndash;
           <a href="#" onClick={this.logout}>Log Out</a>
         </span>
       );
@@ -76,7 +84,7 @@ class App extends React.Component {
 
 export const AppContainer = withRouter(connect(
   state => ({
-    loggedIn: state.getIn(['auth', 'loggedIn']),
+    user: state.getIn(['auth', 'user']),
     errorText: state.get('errorText'),
   }),
   {

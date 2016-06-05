@@ -28,6 +28,12 @@ export function submit(router) {
           state.getIn(['auth', 'password']) === 'setec') {
         dispatch({
           type: 'AUTH_LOGIN_DONE',
+          user: {
+            username: 'setec',
+            permissions: [
+              '*',
+            ],
+          },
         });
         router.push('/');
 
@@ -41,6 +47,7 @@ export function submit(router) {
       } else {
         dispatch({
           type: 'AUTH_LOGIN_DONE',
+          user: null,
           error: 'wrong username or password',
         });
       }

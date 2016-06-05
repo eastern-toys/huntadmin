@@ -1,10 +1,10 @@
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 const INITIAL_STATE = new Map({
   username: '',
   password: '',
+  user: null,
   loggingIn: false,
-  loggedIn: false,
 });
 
 export default function (state = INITIAL_STATE, action) {
@@ -22,11 +22,11 @@ export default function (state = INITIAL_STATE, action) {
   case 'AUTH_LOGIN_DONE':
     return state
       .set('loggingIn', false)
-      .set('loggedIn', action.error === undefined);
+      .set('user', fromJS(action.user));
 
   case 'AUTH_LOGOUT':
     return state
-      .set('loggedIn', false)
+      .set('user', null)
       .set('password', '');
 
   default:
