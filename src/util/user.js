@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export function userMayAccess(user, route) {
   const permissions = user.get('permissions');
 
@@ -10,7 +12,7 @@ export function userMayAccess(user, route) {
   }
 
   function domainExists(domain) {
-    return permissions.find(p => p.startsWith(domain)) !== undefined;
+    return permissions.find(p => _.startsWith(p, domain)) !== undefined;
   }
 
   switch (route) {
