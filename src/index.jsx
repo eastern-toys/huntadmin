@@ -13,13 +13,10 @@ import { AppContainer } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
 import { Home } from './components/Home';
 import { HuntStatusContainer } from './components/HuntStatus';
+import { LoginFormContainer } from './components/LoginForm';
 import { TeamStatusContainer } from './components/TeamStatus';
 
 import reducer from './reducers/reducer';
-
-import * as commonActions from './actions/common_actions';
-import * as submitAnswerFormActions from './actions/submit_answer_form_actions';
-import * as teamStatusActions from './actions/team_status_actions';
 
 let middleware;
 if (DEBUG) {
@@ -33,22 +30,22 @@ if (DEBUG) {
 
 const store = createStore(reducer, new Map(), middleware);
 
-store.dispatch(dispatch =>
-  Promise.all([
-    dispatch(commonActions.fetchTeams()),
-    dispatch(commonActions.refresh()),
-  ]).then(() => Promise.all([
-    dispatch(submitAnswerFormActions.fetchPuzzles()),
-    dispatch(teamStatusActions.fetchVisibilities()),
-  ])));
+function requireAuth(nextState, replace) {
+  if (!store.getState().getIn(['auth', 'loggedIn'])) {
+    replace({
+      pathname: '/login',
+    });
+  }
+}
 
 const routes = (
   <Route path="/" component={AppContainer}>
-    <IndexRoute component={Home} />
-    <Route path="admintools" component={AdminTools} />
-    <Route path="callqueue" component={CallQueueContainer} />
-    <Route path="huntstatus" component={HuntStatusContainer} />
-    <Route path="teamstatus" component={TeamStatusContainer} />
+    <IndexRoute component={Home} onEnter={requireAuth} />
+    <Route path="admintools" component={AdminTools} onEnter={requireAuth} />
+    <Route path="callqueue" component={CallQueueContainer} onEnter={requireAuth} />
+    <Route path="huntstatus" component={HuntStatusContainer} onEnter={requireAuth} />
+    <Route path="login" component={LoginFormContainer} />
+    <Route path="teamstatus" component={TeamStatusContainer} onEnter={requireAuth} />
   </Route>
 );
 
