@@ -4,7 +4,7 @@ export function fetchVisibilities() {
   return (dispatch, getState) => {
     const teamId = getState().getIn(['teamStatus', 'teamId']);
     return fetchToAction(
-      createGetRequest(`visibilities?teamId=${teamId}`),
+      createGetRequest(getState(), `visibilities?teamId=${teamId}`),
       'TEAM_STATUS_FETCH_VISIBILITIES',
       (json, action) => ({
         ...action,

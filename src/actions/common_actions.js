@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { createGetRequest, fetchToAction } from './action_utils';
 
 export function fetchSubmissions() {
-  return dispatch => fetchToAction(
-    createGetRequest('submissions'),
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'submissions'),
     'FETCH_SUBMISSIONS',
     (json, action) => ({
       ...action,
@@ -13,8 +13,8 @@ export function fetchSubmissions() {
 }
 
 export function fetchTeams() {
-  return dispatch => fetchToAction(
-    createGetRequest('teams'),
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'teams'),
     'FETCH_TEAMS',
     (json, action) => ({
       ...action,
@@ -24,8 +24,8 @@ export function fetchTeams() {
 }
 
 export function fetchVisibilityChanges() {
-  return dispatch => fetchToAction(
-    createGetRequest('visibilitychanges'),
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'visibilitychanges'),
     'FETCH_VISIBILITY_CHANGES',
     (json, action) => ({
       ...action,

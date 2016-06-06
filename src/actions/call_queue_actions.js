@@ -7,16 +7,19 @@ export function toggleShowComplete() {
 }
 
 export function setStatus(submissionId, status) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: 'SET_SUBMISSION_STATUS',
       submissionId,
       status,
     });
     return fetchToAction(
-      createPostRequest(`submissions/${submissionId}`, {
-        status,
-      }),
+      createPostRequest(
+        getState(),
+        `submissions/${submissionId}`,
+        {
+          status,
+        }),
       'SET_SUBMISSION_STATUS_DONE',
       (json, action) => ({
         ...action,

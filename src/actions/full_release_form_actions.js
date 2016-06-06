@@ -13,10 +13,13 @@ export function submit() {
       type: 'FULL_RELEASE_FORM_SUBMIT',
     });
     return fetchToAction(
-      createPostRequest('events', {
-        eventType: 'FullRelease',
-        puzzleId: getState().getIn(['fullReleaseForm', 'puzzleId']),
-      }),
+      createPostRequest(
+        getState(),
+        'events',
+        {
+          eventType: 'FullRelease',
+          puzzleId: getState().getIn(['fullReleaseForm', 'puzzleId']),
+        }),
       'FULL_RELEASE_FORM_SUBMIT_DONE',
       (json, action) => action)
       .then(dispatch);

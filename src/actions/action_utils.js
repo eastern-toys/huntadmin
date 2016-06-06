@@ -2,24 +2,36 @@ import * as promise from 'es6-promise';
 promise.polyfill();
 import 'isomorphic-fetch';
 
-export function createGetRequest(route) {
+function authHeader(state) {
+  const username = state.getIn(['auth', 'username']);
+  const password = state.getIn(['auth', 'password']);
+  return `Basic ${btoa(`${username}:${password}`)}`;
+}
+
+export function createGetRequest(state, route) {
   return new Request(
     `${CUBE_API_SERVER}/${route}`,
     {
       mode: 'cors',
+      credentials: 'include',
+      headers: {
+        Authorization: authHeader(state),
+      },
     });
 }
 
-export function createPostRequest(route, body) {
+export function createPostRequest(state, route, body) {
   return new Request(
     `${CUBE_API_SERVER}/${route}`,
     {
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
       body: JSON.stringify(body),
       method: 'POST',
       mode: 'cors',
+      credentials: 'include',
+      headers: {
+        Authorization: authHeader(state),
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     });
 }
 

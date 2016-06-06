@@ -5,7 +5,7 @@ export function fetchPuzzles() {
   return (dispatch, getState) => {
     const teamId = getState().getIn(['submitAnswerForm', 'teamId']);
     return fetchToAction(
-      createGetRequest(`visibilities?teamId=${teamId}`),
+      createGetRequest(getState(), `visibilities?teamId=${teamId}`),
       'SUBMIT_ANSWER_FORM_FETCH_PUZZLES',
       (json, action) => ({
         ...action,
@@ -48,11 +48,14 @@ export function submit() {
       type: 'SUBMIT_ANSWER_FORM_SUBMIT',
     });
     return fetchToAction(
-      createPostRequest('submissions', {
-        teamId: getState().getIn(['submitAnswerForm', 'teamId']),
-        puzzleId: getState().getIn(['submitAnswerForm', 'puzzleId']),
-        submission: getState().getIn(['submitAnswerForm', 'submission']),
-      }),
+      createPostRequest(
+        getState(),
+        'submissions',
+        {
+          teamId: getState().getIn(['submitAnswerForm', 'teamId']),
+          puzzleId: getState().getIn(['submitAnswerForm', 'puzzleId']),
+          submission: getState().getIn(['submitAnswerForm', 'submission']),
+        }),
       'SUBMIT_ANSWER_FORM_SUBMIT_DONE',
       (json, action) => action)
       .then(dispatch);
