@@ -34,7 +34,8 @@ class App extends React.Component {
           <span>{error.description}</span>
           <button
             type="button"
-            onClick={this.props.dismissError}>
+            onClick={this.props.dismissError}
+          >
             Dismiss
           </button>
         </div>
