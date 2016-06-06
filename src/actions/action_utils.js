@@ -42,15 +42,23 @@ export function fetchToAction(request, actionType, actionCreator) {
   return fetch(request)
     .then(response => {
       if (!response.ok) {
-        return response.text().then(text => {
-          action.error = `${response.statusText}: ${text}`;
+        return response.json().then(json => {
+          action.error = {
+            statusCode: json.code,
+            statusText: response.statusText,
+            description: json.description,
+          };
           return action;
         });
       }
       return response.json().then(json => actionCreator(json, action));
     })
     .catch(error => {
-      action.error = String(error);
+      action.error = {
+        statusCode: 0,
+        statusText: 'Unknown error type',
+        description: String(error),
+      };
       return action;
     });
 }

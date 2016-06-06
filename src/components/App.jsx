@@ -24,11 +24,17 @@ class App extends React.Component {
 
   render() {
     let errorBar = '';
-    if (this.props.errorText) {
+    if (this.props.error) {
+      const error = this.props.error;
       errorBar = (
         <div className="ha-page-section ha-error-bar">
-          <span>{this.props.errorText}</span>
-          <button type="button" onClick={this.props.dismissError}>
+          <span className="ha-error-bar-title">
+            {error.statusText} ({error.statusCode})
+          </span>
+          <span>{error.description}</span>
+          <button
+            type="button"
+            onClick={this.props.dismissError}>
             Dismiss
           </button>
         </div>
@@ -85,7 +91,7 @@ class App extends React.Component {
 export const AppContainer = withRouter(connect(
   state => ({
     user: state.getIn(['auth', 'user']),
-    errorText: state.get('errorText'),
+    error: state.get('error'),
   }),
   {
     dismissError: actions.dismissError,
