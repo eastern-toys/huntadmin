@@ -34,8 +34,9 @@ const store = createStore(reducer, new Map(), middleware);
 
 function requireAuth(nextState, replace) {
   const user = store.getState().getIn(['auth', 'user']);
+  const permissions = store.getState().getIn(['auth', 'permissions']);
   if (user) {
-    if (!userMayAccess(user, nextState.location.pathname)) {
+    if (!userMayAccess(permissions, nextState.location.pathname)) {
       replace({
         pathname: '/',
       });

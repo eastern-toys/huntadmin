@@ -53,7 +53,7 @@ class App extends React.Component {
       ];
       links = _.filter(
         allLinks,
-        link => userMayAccess(this.props.user, link.link));
+        link => userMayAccess(this.props.permissions, link.link));
 
       logoutLink = (
         <span>
@@ -92,6 +92,7 @@ class App extends React.Component {
 export const AppContainer = withRouter(connect(
   state => ({
     user: state.getIn(['auth', 'user']),
+    permissions: state.getIn(['auth', 'permissions']),
     error: state.get('error'),
   }),
   {

@@ -35,6 +35,14 @@ export function createPostRequest(state, route, body) {
     });
 }
 
+export function responseErrorPromise(response) {
+  return response.json().then(json => ({
+    statusCode: json.code,
+    statusText: response.statusText,
+    description: json.description,
+  }));
+}
+
 export function fetchToAction(request, actionType, actionCreator) {
   const action = {
     type: actionType,
@@ -42,14 +50,10 @@ export function fetchToAction(request, actionType, actionCreator) {
   return fetch(request)
     .then(response => {
       if (!response.ok) {
-        return response.json().then(json => {
-          action.error = {
-            statusCode: json.code,
-            statusText: response.statusText,
-            description: json.description,
-          };
-          return action;
-        });
+        return responseErrorPromise(response).then(error => ({
+          ...action,
+          error,
+        }));
       }
       return response.json().then(json => actionCreator(json, action));
     })

@@ -1,8 +1,11 @@
-import _ from 'lodash';
+export const PERMISSIONS = [
+  '*',
+  'submissions:read:*',
+  'visibilities:read:*',
+  'events:create:*',
+];
 
-export function userMayAccess(user, route) {
-  const permissions = user.get('permissions');
-
+export function userMayAccess(permissions, route) {
   if (permissions.includes('*')) {
     return true;
   }
@@ -11,19 +14,16 @@ export function userMayAccess(user, route) {
     return true;
   }
 
-  function domainExists(domain) {
-    return permissions.find(p => _.startsWith(p, domain)) !== undefined;
-  }
-
   switch (route) {
   case '/callqueue':
-    return domainExists('submissions');
+    return permissions.includes('submissions:read:*');
   case '/huntstatus':
-    return domainExists('submissions') && domainExists('visibilities');
+    return permissions.includes('submissions:read:*') &&
+      permissions.includes('visibilities:read:*');
   case '/teamstatus':
-    return domainExists('visibilities');
+    return permissions.includes('visibilities:read:*');
   case '/admintools':
-    return domainExists('events');
+    return permissions.includes('events:create:*');
   default:
     return false;
   }
