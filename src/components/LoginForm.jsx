@@ -8,7 +8,7 @@ import * as actions from '../actions/login_actions';
 class LoginForm extends React.Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -21,12 +21,12 @@ class LoginForm extends React.Component {
       this.props.password.length === 0;
   }
 
-  handleSubmit(event) {
+  handleLogin(event) {
     event.preventDefault();
     if (this.disableSubmit()) {
       return;
     }
-    this.props.submit(this.props.router);
+    this.props.login(this.props.router);
   }
 
   render() {
@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
 
     return (
       <div className="ha-control-boxes-container">
-        <form className="ha-control-box" onSubmit={this.handleSubmit}>
+        <form className="ha-control-box" onSubmit={this.handleLogin}>
           <span className="ha-control-box-title">
             Log In
           </span>
@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
           </div>
 
           <div>
-            <input type="submit" {...submitAttrs} />
+            <input type="submit" value="Log In" {...submitAttrs} />
           </div>
         </form>
       </div>
@@ -85,5 +85,5 @@ export const LoginFormContainer = withRouter(connect(
   {
     changeUsername: event => actions.changeUsername(event.target.value),
     changePassword: event => actions.changePassword(event.target.value),
-    submit: router => actions.submit(router),
+    login: router => actions.login(router),
   })(LoginForm));

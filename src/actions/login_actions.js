@@ -21,7 +21,7 @@ export function changePassword(password) {
   };
 }
 
-export function submit(router) {
+export function login(router) {
   return (dispatch, getState) => {
     dispatch({
       type: 'AUTH_LOGIN',
@@ -110,5 +110,14 @@ export function submit(router) {
           error: actionError,
         });
       });
+  };
+}
+
+export function logout(router) {
+  return dispatch => {
+    dispatch({
+      type: 'AUTH_LOGOUT',
+    });
+    router.push('/login');
   };
 }

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 
 import * as actions from '../actions/app_actions.js';
+import * as loginActions from '../actions/login_actions.js';
 import { userMayAccess } from '../util/user.js';
 
 class App extends React.Component {
@@ -97,5 +98,5 @@ export const AppContainer = withRouter(connect(
   }),
   {
     dismissError: actions.dismissError,
-    logout: router => actions.logout(router),
+    logout: router => loginActions.logout(router),
   })(App));
