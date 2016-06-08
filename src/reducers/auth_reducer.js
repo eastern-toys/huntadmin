@@ -20,14 +20,12 @@ export default function (state = INITIAL_STATE, action) {
   case 'AUTH_LOGIN':
     return state.set('loggingIn', true);
 
-  case 'AUTH_LOGIN_USER_FETCHED':
-    return state.set('user', fromJS(action.user));
-
-  case 'AUTH_LOGIN_PERMISSIONS_FETCHED':
-    return state.set('permissions', fromJS(action.permissions));
-
   case 'AUTH_LOGIN_DONE':
-    return state.set('loggingIn', false);
+    return state
+      .set('loggingIn', false)
+      .set('user', action.user ? fromJS(action.user) : null)
+      .set('permissions',
+           action.permissions ? fromJS(action.permissions) : new List());
 
   case 'AUTH_LOGOUT':
     return state

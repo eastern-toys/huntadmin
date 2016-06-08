@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { createGetRequest, fetchToAction, responseErrorPromise } from './action_utils';
+import { createGetRequest, responseErrorPromise } from './action_utils';
 import { PERMISSIONS } from '../util/user';
 
 import * as commonActions from './common_actions';
@@ -28,17 +28,21 @@ export function submit(router) {
     });
 
     const username = getState().getIn(['auth', 'username']);
+    let user;
+    let authorizedPermissions;
 
-    return fetchToAction(
-      createGetRequest(getState(), `users/${username}`),
-      'AUTH_LOGIN_USER_FETCHED',
-      (json, action) => ({
-        ...action,
-        user: json,
-      }))
+    return fetch(createGetRequest(getState(), `users/${username}`))
+      .then(response => {
+        if (!response.ok) {
+          return responseErrorPromise(response)
+            .then(error => Promise.reject(error));
+        }
+        return response.json();
+      })
 
-      .then(userFetchedAction => {
-        dispatch(userFetchedAction);
+      .then(userJson => {
+        user = userJson;
+
         const permissionPromises = _.map(
           PERMISSIONS,
           permission => fetch(
@@ -59,10 +63,7 @@ export function submit(router) {
           permissionPromiseResults,
           _.property('error'));
         if (failedPermissionPromiseResult) {
-          return dispatch({
-            type: 'AUTH_LOGIN_DONE',
-            error: failedPermissionPromiseResult.error,
-          });
+          return Promise.reject(failedPermissionPromiseResult.error);
         }
 
         const permissionResponses = _.zipWith(
@@ -70,14 +71,10 @@ export function submit(router) {
             permission,
             ...response,
           }));
-        const authorizedPermissions = _.chain(permissionResponses)
+        authorizedPermissions = _.chain(permissionResponses)
           .filter(response => response.authorized)
           .map(_.property('permission'))
           .value();
-        dispatch({
-          type: 'AUTH_LOGIN_PERMISSIONS_FETCHED',
-          permissions: authorizedPermissions,
-        });
 
         return Promise.all([
           dispatch(commonActions.fetchTeams()),
@@ -91,9 +88,26 @@ export function submit(router) {
       ]))
 
       .then(() => {
-        router.push('/');
         dispatch({
           type: 'AUTH_LOGIN_DONE',
+          user,
+          permissions: authorizedPermissions,
+        });
+        router.push('/');
+      })
+
+      .catch(error => {
+        let actionError = error;
+        if (error instanceof Error) {
+          actionError = {
+            statusCode: 0,
+            statusText: 'Unknown error type',
+            description: String(error),
+          };
+        }
+        dispatch({
+          type: 'AUTH_LOGIN_DONE',
+          error: actionError,
         });
       });
   };
