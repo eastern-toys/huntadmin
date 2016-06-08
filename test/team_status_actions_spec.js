@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
 import * as sinon from 'sinon';
 
-import { stubFetchFailure, stubFetchSuccess } from './test_utils';
+import { stubFetch } from './test_utils';
 
 import * as actions from '../src/actions/team_status_actions';
 
@@ -30,14 +30,14 @@ describe('team status action creator', () => {
       const visibilities = [
         { teamId: 'team1', puzzleId: 'puzzle1', status: 'UNLOCKED' },
       ];
-      const fetchStub = stubFetchSuccess(sandbox, { visibilities });
+      stubFetch(sandbox, {
+        '/visibilities?teamId=team1': {
+          visibilities,
+        },
+      });
 
       store.dispatch(actions.fetchVisibilities())
         .then(() => {
-          assert.equal(
-            fetchStub.args[0][0].url,
-            `${CUBE_API_SERVER}/visibilities?teamId=team1`
-          );
           assert.deepEqual(store.getActions(), [
             {
               type: 'TEAM_STATUS_FETCH_VISIBILITIES',
@@ -55,14 +55,10 @@ describe('team status action creator', () => {
         },
       }));
 
-      const fetchStub = stubFetchFailure(sandbox, 400);
+      stubFetch(sandbox, {});
 
       store.dispatch(actions.fetchVisibilities())
         .then(() => {
-          assert.equal(
-            fetchStub.args[0][0].url,
-            `${CUBE_API_SERVER}/visibilities?teamId=team1`
-          );
           const storeActions = store.getActions();
           assert.lengthOf(storeActions, 1);
           assert.equal(storeActions[0].type, 'TEAM_STATUS_FETCH_VISIBILITIES');
