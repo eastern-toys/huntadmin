@@ -27,7 +27,9 @@ export default function (oldState = INITIAL_STATE, action) {
         state.get('submissions').findIndex(
           submission => submission.get('submissionId') === action.submissionId),
       ],
-      submission => submission.set('status', action.status));
+      submission => submission
+        .set('status', action.status)
+        .set('callerUsername', action.callerUsername));
 
   case 'FETCH_TEAMS':
     if (action.teamIds) {

@@ -88,12 +88,17 @@ class SubmissionRow extends React.Component {
 
   render() {
     const submission = this.props.submission;
+    let caller = "unassigned"
+    if (submission.get('callerUsername')) {
+       caller = submission.get('callerUsername');
+    }
     return (
       <tr>
         <td>{this.renderTimestamp()}</td>
         <td>{submission.get('teamId')}</td>
         <td>{submission.get('puzzleId')}</td>
         <td>{submission.get('submission')}</td>
+        <td>{caller}</td>
         <td>{this.renderActions()}</td>
       </tr>
     );
@@ -127,6 +132,7 @@ class CallQueue extends React.Component {
                 <th>Team</th>
                 <th>Puzzle</th>
                 <th>Answer</th>
+                <th>Caller</th>
                 <th>Status</th>
               </tr>
             </thead>

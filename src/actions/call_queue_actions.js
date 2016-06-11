@@ -8,10 +8,12 @@ export function toggleShowComplete() {
 
 export function setStatus(submissionId, status) {
   return (dispatch, getState) => {
+    const callerUsername = getState().getIn(['auth', 'username']);
     dispatch({
       type: 'SET_SUBMISSION_STATUS',
       submissionId,
       status,
+      callerUsername,
     });
     return fetchToAction(
       createPostRequest(
@@ -25,6 +27,7 @@ export function setStatus(submissionId, status) {
         ...action,
         submissionId,
         status,
+        callerUsername,
       }))
       .then(dispatch);
   };
