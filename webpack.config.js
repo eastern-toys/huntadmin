@@ -15,6 +15,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       CUBE_API_SERVER: '\'http://localhost:8182\'',
+      EVENTS_SERVER: '\'ws://192.168.1.2:8002\'',
       DEBUG: true
     })
   ],

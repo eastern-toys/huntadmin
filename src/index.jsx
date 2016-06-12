@@ -8,6 +8,8 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
+import { refreshEvent } from './actions/event_actions';
+
 import { AdminTools } from './components/AdminTools';
 import { AppContainer } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
@@ -31,6 +33,17 @@ if (DEBUG) {
 }
 
 const store = createStore(reducer, new Map(), middleware);
+
+if (EVENTS_SERVER) {
+  const ws = new WebSocket(EVENTS_SERVER + '/refreshevents');
+  ws.onmessage = message => {
+    const event = JSON.parse(message.data);
+    const action = refreshEvent(event);
+    if (action) {
+      store.dispatch(action);
+    }
+  };
+}
 
 function requireAuth(nextState, replace) {
   const user = store.getState().getIn(['auth', 'user']);
