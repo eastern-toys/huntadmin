@@ -1,6 +1,7 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
+import { isCompleteStatus } from '../util/status';
 import { timestampToString } from '../util/timestamp';
 
 import { AutoRefreshControlsContainer } from './AutoRefreshControls';
@@ -29,6 +30,7 @@ class ShowControls extends React.Component {
 class SubmissionRow extends React.Component {
   constructor() {
     super();
+    this.setSubmitted = this.setSubmitted.bind(this);
     this.setAssigned = this.setAssigned.bind(this);
     this.setCorrect = this.setCorrect.bind(this);
     this.setIncorrect = this.setIncorrect.bind(this);
@@ -40,6 +42,10 @@ class SubmissionRow extends React.Component {
 
   setStatus(status) {
     this.props.setStatus(this.props.submission.get('submissionId'), status);
+  }
+
+  setSubmitted() {
+    this.setStatus('SUBMITTED');
   }
 
   setAssigned() {
@@ -63,17 +69,29 @@ class SubmissionRow extends React.Component {
     case 'SUBMITTED':
       return (
         <button type="button" onClick={this.setAssigned}>
-          Assign
+          Claim
         </button>
       );
     case 'ASSIGNED':
+      if (this.props.username === this.props.submission.get('callerUsername')) {
+        return (
+          <div className="ha-button-row">
+            <button type="button" onClick={this.setSubmitted}>
+              Unassign
+            </button>
+            <button type="button" onClick={this.setCorrect}>
+              Correct
+            </button>
+            <button type="button" onClick={this.setIncorrect}>
+              Incorrect
+            </button>
+          </div>
+        );
+      }
       return (
-        <div>
-          <button type="button" onClick={this.setCorrect}>
-            Correct
-          </button>
-          <button type="button" onClick={this.setIncorrect}>
-            Incorrect
+        <div className="ha-button-row">
+          <button type="button" onClick={this.setSubmitted}>
+            Unassign
           </button>
         </div>
       );
@@ -88,9 +106,9 @@ class SubmissionRow extends React.Component {
 
   render() {
     const submission = this.props.submission;
-    let caller = "unassigned"
+    let caller = 'unassigned';
     if (submission.get('callerUsername')) {
-       caller = submission.get('callerUsername');
+      caller = submission.get('callerUsername');
     }
     return (
       <tr>
@@ -103,10 +121,6 @@ class SubmissionRow extends React.Component {
       </tr>
     );
   }
-}
-
-function isCompleteStatus(status) {
-  return status === 'CORRECT' || status === 'INCORRECT';
 }
 
 class CallQueue extends React.Component {
@@ -143,6 +157,7 @@ class CallQueue extends React.Component {
                 <SubmissionRow
                   key={submission.get('submissionId')}
                   submission={submission}
+                  username={this.props.username}
                   setStatus={this.props.setStatus}
                 />
               )}
@@ -156,6 +171,7 @@ class CallQueue extends React.Component {
 
 export const CallQueueContainer = connect(
   state => ({
+    username: state.getIn(['auth', 'username']),
     submissions: state.getIn(['common', 'submissions']),
     showComplete: state.getIn(['callQueue', 'showComplete']),
   }),

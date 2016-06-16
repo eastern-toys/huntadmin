@@ -119,6 +119,10 @@ body {
     }
 }
 
+.ha-button-row button + button {
+    margin-left: 0.5em;
+}
+
 .ha-chart-container {
     display: flex;
     flex-direction: column;

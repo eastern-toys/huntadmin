@@ -1,4 +1,6 @@
 import { createPostRequest, fetchToAction } from './action_utils';
+import { refresh } from './common_actions';
+import { isAssignedStatus } from '../util/status';
 
 export function toggleShowComplete() {
   return {
@@ -8,7 +10,10 @@ export function toggleShowComplete() {
 
 export function setStatus(submissionId, status) {
   return (dispatch, getState) => {
-    const callerUsername = getState().getIn(['auth', 'username']);
+    let callerUsername = undefined;
+    if (isAssignedStatus(status)) {
+      callerUsername = getState().getIn(['auth', 'username']);
+    }
     dispatch({
       type: 'SET_SUBMISSION_STATUS',
       submissionId,
@@ -29,6 +34,11 @@ export function setStatus(submissionId, status) {
         status,
         callerUsername,
       }))
-      .then(dispatch);
+      .then(action => {
+        dispatch(action);
+        if (action.error) {
+          dispatch(refresh());
+        }
+      });
   };
 }
