@@ -114,10 +114,13 @@ export function login(router) {
 }
 
 export function logout(router) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({
       type: 'AUTH_LOGOUT',
     });
+    if (getState().getIn(['common', 'autoRefresh'])) {
+      dispatch(commonActions.toggleAutoRefresh());
+    }
     router.push('/login');
   };
 }
