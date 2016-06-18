@@ -1,6 +1,6 @@
 import { createPostRequest, fetchToAction } from './action_utils';
 import { refresh } from './common_actions';
-import { isAssignedStatus } from '../util/status';
+import { isAssignedStatus, isCompleteStatus } from '../util/status';
 
 export function toggleShowComplete() {
   return {
@@ -36,7 +36,7 @@ export function setStatus(submissionId, status) {
       }))
       .then(action => {
         dispatch(action);
-        if (action.error) {
+        if (action.error || isCompleteStatus(status)) {
           dispatch(refresh());
         }
       });
