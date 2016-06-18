@@ -69,8 +69,31 @@ body {
     margin-left: 0.5em;
 }
 
+.ha-column-control-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0.5em;
+    background-color: #cccccc;
+}
+
+.ha-column-control-box * + * {
+    margin-top: 0.5em;
+}
+
 .ha-control-box-title {
     font-weight: bold;
+}
+
+.ha-labeled-input-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.ha-labeled-input-form input {
+    margin-left: 0.5em;
 }
 
 .ha-table {
