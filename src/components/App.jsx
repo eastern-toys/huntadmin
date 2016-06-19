@@ -50,6 +50,7 @@ class App extends React.Component {
         { link: '/callqueue', title: 'Call Queue' },
         { link: '/huntstatus', title: 'Hunt Status' },
         { link: '/teamstatus', title: 'Team Status' },
+        { link: '/users', title: 'Users' },
         { link: '/admintools', title: 'Admin Tools' },
       ];
       links = _.filter(

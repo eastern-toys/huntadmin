@@ -23,6 +23,17 @@ export function fetchTeams() {
     .then(dispatch);
 }
 
+export function fetchUsers() {
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'users'),
+    'FETCH_USERS',
+    (json, action) => ({
+      ...action,
+      users: json.users,
+    }))
+    .then(dispatch);
+}
+
 export function fetchVisibilityChanges() {
   return (dispatch, getState) => fetchToAction(
     createGetRequest(getState(), 'visibilitychanges'),
@@ -37,6 +48,7 @@ export function fetchVisibilityChanges() {
 export function refresh() {
   return dispatch => Promise.all([
     dispatch(fetchSubmissions()),
+    dispatch(fetchUsers()),
     dispatch(fetchVisibilityChanges()),
   ]).then(() => dispatch({
     type: 'REFRESH_COMPLETE',

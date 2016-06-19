@@ -3,6 +3,7 @@ import { List, Map, fromJS } from 'immutable';
 const INITIAL_STATE = new Map({
   submissions: List.of(),
   teamIds: List.of(),
+  users: List.of(),
   visibilityChanges: List.of(),
 
   autoRefresh: false,
@@ -34,6 +35,12 @@ export default function (oldState = INITIAL_STATE, action) {
   case 'FETCH_TEAMS':
     if (action.teamIds) {
       state = state.set('teamIds', new List(action.teamIds));
+    }
+    return state;
+
+  case 'FETCH_USERS':
+    if (action.users) {
+      state = state.set('users', fromJS(action.users));
     }
     return state;
 

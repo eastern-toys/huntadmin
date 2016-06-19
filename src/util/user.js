@@ -2,6 +2,7 @@ export const PERMISSIONS = [
   '*',
   'submissions:read:*',
   'visibilities:read:*',
+  'users:read:*',
   'events:create:*',
 ];
 
@@ -22,6 +23,8 @@ export function userMayAccess(permissions, route) {
       permissions.includes('visibilities:read:*');
   case '/teamstatus':
     return permissions.includes('visibilities:read:*');
+  case '/users':
+    return permissions.includes('users:read:*');
   case '/admintools':
     return permissions.includes('events:create:*');
   default:
