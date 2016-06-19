@@ -3,6 +3,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 
 import { AddTeamFormContainer } from './AddTeamForm';
 import { AddUserFormContainer } from './AddUserForm';
+import { EditUserFormContainer } from './EditUserForm';
 import { FullReleaseFormContainer } from './FullReleaseForm';
 import { StartHuntButtonContainer } from './StartHuntButton';
 import { SubmitAnswerFormContainer } from './SubmitAnswerForm';
@@ -20,6 +21,7 @@ export class AdminTools extends React.Component {
         <FullReleaseFormContainer />
         <AddTeamFormContainer />
         <AddUserFormContainer />
+        <EditUserFormContainer />
       </div>
     );
   }

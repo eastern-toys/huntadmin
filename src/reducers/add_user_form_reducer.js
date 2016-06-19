@@ -17,10 +17,10 @@ export default function (state = INITIAL_STATE, action) {
     return state.set('password', action.password);
 
   case 'ADD_USER_FORM_ADD_ROLE':
-    return state.updateIn(['roles'], roles => roles.add(action.role));
+    return state.update('roles', roles => roles.add(action.role));
 
   case 'ADD_USER_FORM_REMOVE_ROLE':
-    return state.updateIn(['roles'], roles => roles.delete(action.role));
+    return state.update('roles', roles => roles.delete(action.role));
 
   case 'ADD_USER_FORM_SUBMIT':
     return state.set('submitting', true);

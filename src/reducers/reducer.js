@@ -5,6 +5,7 @@ import addUserForm from './add_user_form_reducer';
 import auth from './auth_reducer';
 import callQueue from './call_queue_reducer';
 import common from './common_reducer';
+import editUserForm from './edit_user_form_reducer';
 import error from './error_reducer';
 import fullReleaseForm from './full_release_form_reducer';
 import submitAnswerForm from './submit_answer_form_reducer';
@@ -17,6 +18,7 @@ export default combineReducers({
   auth,
   callQueue,
   common,
+  editUserForm,
   error,
   fullReleaseForm,
   startHunt,
