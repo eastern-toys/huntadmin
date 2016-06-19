@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions/add_user_form_actions';
 
+import { RoleEditor } from './RoleEditor';
+
 class AddUserForm extends React.Component {
   constructor() {
     super();
@@ -39,24 +41,6 @@ class AddUserForm extends React.Component {
       submitAttrs.disabled = 'disabled';
     }
 
-    // TODO: fetch list of roles from Cube server
-    const roles = ['writingteam', 'admin'];
-    const roleCheckboxes = (
-      <div className="ha-labeled-input-form">
-        {roles.map(role =>
-          <label key={role}>
-            <input
-              type="checkbox"
-              data-role={role}
-              checked={this.props.roles.includes(role)}
-              onChange={this.props.changeRole}
-            />
-            {role}
-          </label>
-        )}
-      </div>
-    );
-
     return (
       <form
         className="ha-column-control-box"
@@ -89,7 +73,12 @@ class AddUserForm extends React.Component {
 
           <label>
             Roles
-            {roleCheckboxes}
+            <RoleEditor
+              roles={this.props.roles}
+              inputAttrs={inputAttrs}
+              addRole={this.props.addRole}
+              removeRole={this.props.removeRole}
+            />
           </label>
         </div>
 
@@ -109,9 +98,8 @@ export const AddUserFormContainer = connect(
   {
     changeUsername: event => actions.changeUsername(event.target.value),
     changePassword: event => actions.changePassword(event.target.value),
-    changeRole: event => actions.changeRole(
-      event.target.getAttribute('data-role'),
-      event.target.checked),
+    addRole: role => actions.addRole(role),
+    removeRole: role => actions.removeRole(role),
     submit: actions.submit,
   })(AddUserForm);
 

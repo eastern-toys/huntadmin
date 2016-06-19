@@ -14,11 +14,17 @@ export function changePassword(password) {
   };
 }
 
-export function changeRole(role, granted) {
+export function addRole(role) {
   return {
-    type: 'ADD_USER_FORM_CHANGE_ROLE',
+    type: 'ADD_USER_FORM_ADD_ROLE',
     role,
-    granted,
+  };
+}
+
+export function removeRole(role) {
+  return {
+    type: 'ADD_USER_FORM_REMOVE_ROLE',
+    role,
   };
 }
 
