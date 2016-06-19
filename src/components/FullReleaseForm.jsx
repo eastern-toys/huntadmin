@@ -39,14 +39,25 @@ class FullReleaseForm extends React.Component {
     }
 
     return (
-      <form className="ha-control-box" onSubmit={this.handleSubmit}>
+      <form
+        className="ha-column-control-box"
+        onSubmit={this.handleSubmit}
+      >
         <span className="ha-control-box-title">Full Puzzle Release</span>
-        <input
-          type="text"
-          value={this.props.puzzleId}
-          onChange={this.props.changePuzzleId}
-          {...inputAttrs}
-        />
+
+        <div className="ha-labeled-input-form">
+          <label>
+            Puzzle ID
+
+            <input
+              type="text"
+              value={this.props.puzzleId}
+              onChange={this.props.changePuzzleId}
+              {...inputAttrs}
+            />
+          </label>
+        </div>
+
         <input type="submit" {...submitAttrs} />
       </form>
     );

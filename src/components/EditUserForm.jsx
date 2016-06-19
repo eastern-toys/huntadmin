@@ -51,9 +51,7 @@ class EditUserForm extends React.Component {
         <div className="ha-labeled-input-form">
           <label>
             Username
-            <button type="button" onClick={this.props.refresh}>
-              Refresh Now
-            </button>
+
             <select
               value={this.props.username}
               onChange={this.props.changeUsername}
@@ -66,6 +64,10 @@ class EditUserForm extends React.Component {
                 );
               })}
             </select>
+
+            <button type="button" onClick={this.props.refresh}>
+              Refresh Now
+            </button>
           </label>
 
           <label>

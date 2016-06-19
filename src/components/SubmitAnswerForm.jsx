@@ -40,40 +40,58 @@ class SubmitAnswerForm extends React.Component {
     }
 
     return (
-      <form className="ha-control-box" onSubmit={this.handleSubmit}>
+      <form
+        className="ha-column-control-box"
+        onSubmit={this.handleSubmit}
+      >
         <span className="ha-control-box-title">
           Submit Answer
         </span>
-        <button type="button" onClick={this.props.refresh}>
-          Refresh Now
-        </button>
-        <select
-          value={this.props.teamId}
-          onChange={this.props.changeTeam}
-          {...inputAttrs}
-        >
-          {this.props.teamIds.map(teamId => (
-            <option key={teamId} value={teamId}>{teamId}</option>
-          ))}
-        </select>
 
-        <select
-          value={this.props.puzzleId}
-          onChange={this.props.changePuzzle}
-          {...inputAttrs}
-        >
-          {this.props.puzzleIds.map(puzzleId => (
-            <option key={puzzleId} value={puzzleId}>{puzzleId}</option>
-          ))}
-        </select>
+        <div className="ha-labeled-input-form">
+          <label>
+            Team ID
 
-        <input
-          type="text"
-          value={this.props.submission}
-          onChange={this.props.changeSubmission}
-          {...inputAttrs}
-        />
+            <select
+              value={this.props.teamId}
+              onChange={this.props.changeTeam}
+              {...inputAttrs}
+            >
+              {this.props.teamIds.map(teamId => (
+                <option key={teamId} value={teamId}>{teamId}</option>
+              ))}
+            </select>
 
+            <button type="button" onClick={this.props.refresh}>
+              Refresh Now
+            </button>
+          </label>
+
+          <label>
+            Puzzle ID
+
+            <select
+              value={this.props.puzzleId}
+              onChange={this.props.changePuzzle}
+              {...inputAttrs}
+            >
+              {this.props.puzzleIds.map(puzzleId => (
+                <option key={puzzleId} value={puzzleId}>{puzzleId}</option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            Answer
+
+            <input
+              type="text"
+              value={this.props.submission}
+              onChange={this.props.changeSubmission}
+              {...inputAttrs}
+            />
+          </label>
+        </div>
         <input type="submit" {...submitAttrs} />
       </form>
     );
