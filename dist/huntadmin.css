@@ -92,7 +92,7 @@ body {
     flex-direction: column;
 }
 
-.ha-labeled-input-form input {
+.ha-labeled-input-form button, input, select {
     margin-left: 0.5em;
 }
 
