@@ -47,6 +47,7 @@ export function fetchVisibilityChanges() {
 
 export function refresh() {
   return dispatch => Promise.all([
+    dispatch(fetchTeams()),
     dispatch(fetchSubmissions()),
     dispatch(fetchUsers()),
     dispatch(fetchVisibilityChanges()),

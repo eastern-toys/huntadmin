@@ -77,7 +77,6 @@ export function login(router) {
           .value();
 
         return Promise.all([
-          dispatch(commonActions.fetchTeams()),
           dispatch(commonActions.refresh()),
         ]);
       })
