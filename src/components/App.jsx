@@ -59,9 +59,7 @@ class App extends React.Component {
 
       logoutLink = (
         <span>
-          &ndash; &nbsp;
-          {this.props.user.get('username')}
-          &nbsp; &ndash;
+          - {this.props.user.get('username')} -
           <a href="#" onClick={this.logout}>Log Out</a>
         </span>
       );
