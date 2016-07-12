@@ -8,8 +8,8 @@ import common from './common_reducer';
 import editUserForm from './edit_user_form_reducer';
 import error from './error_reducer';
 import fullReleaseForm from './full_release_form_reducer';
+import huntState from './hunt_state_reducer';
 import submitAnswerForm from './submit_answer_form_reducer';
-import startHunt from './start_hunt_reducer';
 import teamStatus from './team_status_reducer';
 
 export default combineReducers({
@@ -21,7 +21,7 @@ export default combineReducers({
   editUserForm,
   error,
   fullReleaseForm,
-  startHunt,
+  huntState,
   submitAnswerForm,
   teamStatus,
 });

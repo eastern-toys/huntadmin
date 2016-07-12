@@ -17,3 +17,16 @@ export function startHunt() {
       .then(dispatch);
   };
 }
+
+export function syncPuzzles() {
+  return (dispatch, getState) => fetchToAction(
+    createPostRequest(
+      getState(),
+      'events',
+      {
+        eventType: 'SyncPuzzles',
+      }),
+    'SYNC_PUZZLES_DONE',
+    (json, action) => action)
+    .then(dispatch);
+}

@@ -4,8 +4,8 @@ import shallowCompare from 'react-addons-shallow-compare';
 import { AddTeamFormContainer } from './AddTeamForm';
 import { AddUserFormContainer } from './AddUserForm';
 import { EditUserFormContainer } from './EditUserForm';
+import { EventButtonsContainer } from './EventButtons';
 import { FullReleaseFormContainer } from './FullReleaseForm';
-import { StartHuntButtonContainer } from './StartHuntButton';
 import { SubmitAnswerFormContainer } from './SubmitAnswerForm';
 
 export class AdminTools extends React.Component {
@@ -17,7 +17,7 @@ export class AdminTools extends React.Component {
     return (
       <div className="ha-control-boxes-container">
         <SubmitAnswerFormContainer />
-        <StartHuntButtonContainer />
+        <EventButtonsContainer />
         <FullReleaseFormContainer />
         <AddTeamFormContainer />
         <AddUserFormContainer />
