@@ -1,6 +1,8 @@
 import { List, Map, fromJS } from 'immutable';
 
 const INITIAL_STATE = new Map({
+  cubeApiServer: 'http://unknown-cube-api-server',
+
   submissions: List.of(),
   teamIds: List.of(),
   users: List.of(),
@@ -14,6 +16,12 @@ const INITIAL_STATE = new Map({
 export default function (oldState = INITIAL_STATE, action) {
   let state = oldState;
   switch (action.type) {
+
+  case 'SET_CUBE_API_SERVER':
+    if (action.cubeApiServer) {
+      state = state.set('cubeApiServer', action.cubeApiServer);
+    }
+    return state;
 
   case 'FETCH_SUBMISSIONS':
     if (action.submissions) {

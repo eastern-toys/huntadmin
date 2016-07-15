@@ -31,10 +31,11 @@ export function login(router) {
     let user;
     let authorizedPermissions;
 
-    return fetch(createGetRequest(getState(), `users/${username}`))
+    const userRequest = createGetRequest(getState(), `users/${username}`);
+    return fetch(userRequest)
       .then(response => {
         if (!response.ok) {
-          return responseErrorPromise(response)
+          return responseErrorPromise(userRequest, response)
             .then(error => Promise.reject(error));
         }
         return response.json();
@@ -45,16 +46,21 @@ export function login(router) {
 
         const permissionPromises = _.map(
           PERMISSIONS,
-          permission => fetch(
-            createGetRequest(getState(), `authorized?permission=${permission}`))
-            .then(response => {
-              if (!response.ok) {
-                return responseErrorPromise(response).then(error => ({
-                  error,
-                }));
-              }
-              return response.json();
-            }));
+          permission => {
+            const authorizedRequest = createGetRequest(
+              getState(),
+              `authorized?permission=${permission}`);
+            return fetch(authorizedRequest)
+              .then(response => {
+                if (!response.ok) {
+                  return responseErrorPromise(authorizedRequest, response)
+                    .then(error => ({
+                      error,
+                    }));
+                }
+                return response.json();
+              });
+          });
         return Promise.all(permissionPromises);
       })
 

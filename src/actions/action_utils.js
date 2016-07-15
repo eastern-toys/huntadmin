@@ -9,8 +9,9 @@ function authHeader(state) {
 }
 
 export function createGetRequest(state, route) {
+  const cubeApiServer = state.getIn(['common', 'cubeApiServer']);
   return new Request(
-    `${CUBE_API_SERVER}/${route}`,
+    `${cubeApiServer}/${route}`,
     {
       mode: 'cors',
       credentials: 'include',
@@ -21,8 +22,9 @@ export function createGetRequest(state, route) {
 }
 
 export function createPostRequest(state, route, body) {
+  const cubeApiServer = state.getIn(['common', 'cubeApiServer']);
   return new Request(
-    `${CUBE_API_SERVER}/${route}`,
+    `${cubeApiServer}/${route}`,
     {
       body: JSON.stringify(body),
       method: 'POST',
@@ -35,12 +37,18 @@ export function createPostRequest(state, route, body) {
     });
 }
 
-export function responseErrorPromise(response) {
-  return response.json().then(json => ({
-    statusCode: json.code,
-    statusText: response.statusText,
-    description: json.description,
-  }));
+export function responseErrorPromise(request, response) {
+  return response.json()
+    .then(json => ({
+      statusCode: json.code,
+      statusText: response.statusText,
+      description: json.description,
+    }))
+    .catch(() => ({
+      statusCode: response.status,
+      statusText: response.statusText,
+      description: `Failed request for ${request.url ? request.url : request}`,
+    }));
 }
 
 export function fetchToAction(request, actionType, actionCreator) {
@@ -50,7 +58,7 @@ export function fetchToAction(request, actionType, actionCreator) {
   return fetch(request)
     .then(response => {
       if (!response.ok) {
-        return responseErrorPromise(response).then(error => ({
+        return responseErrorPromise(request, response).then(error => ({
           ...action,
           error,
         }));

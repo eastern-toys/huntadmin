@@ -17,6 +17,8 @@ import { LoginFormContainer } from './components/LoginForm';
 import { TeamStatusContainer } from './components/TeamStatus';
 import { UsersContainer } from './components/Users';
 
+import { fetchToAction } from './actions/action_utils';
+
 import reducer from './reducers/reducer';
 
 import { userMayAccess } from './util/user.js';
@@ -32,6 +34,15 @@ if (DEBUG) {
 }
 
 const store = createStore(reducer, new Map(), middleware);
+
+fetchToAction(
+  'config.json',
+  'SET_CUBE_API_SERVER',
+  (json, action) => ({
+    ...action,
+    cubeApiServer: json.cubeApiServer,
+  }))
+  .then(store.dispatch);
 
 function requireAuth(nextState, replace) {
   const user = store.getState().getIn(['auth', 'user']);

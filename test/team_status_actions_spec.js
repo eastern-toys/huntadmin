@@ -1,14 +1,10 @@
 import { assert } from 'chai';
 import { fromJS } from 'immutable';
-import configureMockStore from 'redux-mock-store';
-import thunkMiddleware from 'redux-thunk';
 import * as sinon from 'sinon';
 
-import { stubFetch } from './test_utils';
+import { mockStore, stubFetch } from './test_utils';
 
 import * as actions from '../src/actions/team_status_actions';
-
-const mockStore = configureMockStore([thunkMiddleware]);
 
 describe('team status action creator', () => {
   let sandbox;

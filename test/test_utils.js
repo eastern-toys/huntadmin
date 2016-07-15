@@ -1,4 +1,14 @@
+import configureMockStore from 'redux-mock-store';
+import thunkMiddleware from 'redux-thunk';
+
 import { Readable } from 'stream';
+
+const mockStoreCreator = configureMockStore([thunkMiddleware]);
+
+export function mockStore(state) {
+  return mockStoreCreator(
+    state.setIn(['common', 'cubeApiServer'], CUBE_API_SERVER));
+}
 
 export function stubFetch(sandbox, responses) {
   return sandbox.stub(global, 'fetch', request => {

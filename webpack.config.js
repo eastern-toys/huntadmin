@@ -14,7 +14,6 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      CUBE_API_SERVER: '\'http://localhost:8182\'',
       DEBUG: true
     })
   ],
