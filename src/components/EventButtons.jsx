@@ -19,12 +19,6 @@ class EventButtons extends React.Component {
       <div className="ha-control-box">
         <button
           type="button"
-          onClick={this.props.syncPuzzles}
-        >
-          Sync Puzzles
-        </button>
-        <button
-          type="button"
           {...startHuntButtonAttrs}
           onClick={this.props.startHunt}
         >
@@ -41,5 +35,4 @@ export const EventButtonsContainer = connect(
   }),
   {
     startHunt: actions.startHunt,
-    syncPuzzles: actions.syncPuzzles,
   })(EventButtons);
