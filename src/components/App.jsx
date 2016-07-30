@@ -48,7 +48,6 @@ class App extends React.Component {
     if (this.props.user) {
       const allLinks = [
         { link: '/callqueue', title: 'Call Queue' },
-        { link: '/huntstatus', title: 'Hunt Status' },
         { link: '/teamstatus', title: 'Team Status' },
         { link: '/users', title: 'Users' },
         { link: '/admintools', title: 'Admin Tools' },

@@ -18,9 +18,6 @@ export function userMayAccess(permissions, route) {
   switch (route) {
   case '/callqueue':
     return permissions.includes('submissions:read:*');
-  case '/huntstatus':
-    return permissions.includes('submissions:read:*') &&
-      permissions.includes('visibilities:read:*');
   case '/teamstatus':
     return permissions.includes('visibilities:read:*');
   case '/users':

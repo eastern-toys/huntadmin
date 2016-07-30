@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Mystery Hunt administration web app",
   "dependencies": {
-    "d3": "^3.5.16",
     "es6-promise": "^3.1.2",
     "immutable": "^3.7.6",
     "immutable-reducers": "^1.1.0",

@@ -12,7 +12,6 @@ import { AdminTools } from './components/AdminTools';
 import { AppContainer } from './components/App';
 import { CallQueueContainer } from './components/CallQueue';
 import { Home } from './components/Home';
-import { HuntStatusContainer } from './components/HuntStatus';
 import { LoginFormContainer } from './components/LoginForm';
 import { TeamStatusContainer } from './components/TeamStatus';
 import { UsersContainer } from './components/Users';
@@ -65,7 +64,6 @@ const routes = (
     <IndexRoute component={Home} onEnter={requireAuth} />
     <Route path="admintools" component={AdminTools} onEnter={requireAuth} />
     <Route path="callqueue" component={CallQueueContainer} onEnter={requireAuth} />
-    <Route path="huntstatus" component={HuntStatusContainer} onEnter={requireAuth} />
     <Route path="login" component={LoginFormContainer} />
     <Route path="teamstatus" component={TeamStatusContainer} onEnter={requireAuth} />
     <Route path="users" component={UsersContainer} onEnter={requireAuth} />

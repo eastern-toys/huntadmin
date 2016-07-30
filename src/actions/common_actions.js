@@ -2,24 +2,14 @@ import _ from 'lodash';
 import { createGetRequest, fetchToAction } from './action_utils';
 
 export function fetchSubmissions() {
-  return (dispatch, getState) => Promise.all([
-    fetchToAction(
-      createGetRequest(getState(), 'submissions'),
-      'FETCH_SUBMISSIONS',
-      (json, action) => ({
-        ...action,
-        submissions: json.submissions,
-      }))
-      .then(dispatch),
-    fetchToAction(
-      createGetRequest(getState(), 'submissions?status=SUBMITTED,ASSIGNED'),
-      'FETCH_PENDING_SUBMISSIONS',
-      (json, action) => ({
-        ...action,
-        submissions: json.submissions,
-      }))
-      .then(dispatch),
-  ]);
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'submissions?status=SUBMITTED,ASSIGNED'),
+    'FETCH_PENDING_SUBMISSIONS',
+    (json, action) => ({
+      ...action,
+      submissions: json.submissions,
+    }))
+    .then(dispatch);
 }
 
 export function fetchTeams() {
