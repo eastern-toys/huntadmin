@@ -1,14 +1,29 @@
-import { Map } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 
 const INITIAL_STATE = new Map({
-  showComplete: false,
+  pendingSubmissions: List.of(),
 });
 
-export default function (state = INITIAL_STATE, action) {
+export default function (oldState = INITIAL_STATE, action) {
+  let state = oldState;
   switch (action.type) {
 
-  case 'CALL_QUEUE_TOGGLE_SHOW_COMPLETE':
-    return state.set('showComplete', !state.get('showComplete'));
+  case 'FETCH_PENDING_SUBMISSIONS':
+    if (action.submissions) {
+      state = state.set('pendingSubmissions', fromJS(action.submissions));
+    }
+    return state;
+
+  case 'SET_SUBMISSION_STATUS':
+    return state.updateIn(
+      [
+        'pendingSubmissions',
+        state.get('pendingSubmissions').findIndex(
+          submission => submission.get('submissionId') === action.submissionId),
+      ],
+      submission => submission
+        .set('status', action.status)
+        .set('callerUsername', action.callerUsername));
 
   default:
     return state;

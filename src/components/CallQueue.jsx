@@ -1,31 +1,11 @@
 import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
-import { isCompleteStatus } from '../util/status';
 import { timestampToString } from '../util/timestamp';
 
 import { AutoRefreshControlsContainer } from './AutoRefreshControls';
 
 import * as actions from '../actions/call_queue_actions.js';
-
-class ShowControls extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
-  render() {
-    return (
-      <div className="ha-control-box">
-        <input
-          type="checkbox"
-          checked={this.props.showComplete}
-          onChange={this.props.toggleShowComplete}
-        />
-        <span>show complete submissions</span>
-      </div>
-    );
-  }
-}
 
 class SubmissionRow extends React.Component {
   constructor() {
@@ -123,6 +103,39 @@ class SubmissionRow extends React.Component {
   }
 }
 
+class SubmissionTable extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
+  render() {
+    return (
+      <table className="ha-table ha-table-responsive">
+        <thead>
+          <tr>
+            <th>Submission Time</th>
+            <th>Team</th>
+            <th>Puzzle</th>
+            <th>Answer</th>
+            <th>Caller</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.props.submissions.map(submission => (
+            <SubmissionRow
+              key={submission.get('submissionId')}
+              submission={submission}
+              username={this.props.username}
+              setStatus={this.props.setStatus}
+            />
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+}
+
 class CallQueue extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -133,36 +146,21 @@ class CallQueue extends React.Component {
       <div>
         <div className="ha-control-boxes-container">
           <AutoRefreshControlsContainer />
-          <ShowControls
-            showComplete={this.props.showComplete}
-            toggleShowComplete={this.props.toggleShowComplete}
-          />
         </div>
         <div className="ha-page-section">
-          <table className="ha-table ha-table-responsive">
-            <thead>
-              <tr>
-                <th>Submission Time</th>
-                <th>Team</th>
-                <th>Puzzle</th>
-                <th>Answer</th>
-                <th>Caller</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.submissions.filter(submission =>
-                this.props.showComplete || !isCompleteStatus(submission.get('status'))
-              ).map(submission =>
-                <SubmissionRow
-                  key={submission.get('submissionId')}
-                  submission={submission}
-                  username={this.props.username}
-                  setStatus={this.props.setStatus}
-                />
-              )}
-            </tbody>
-          </table>
+          <h2>Your Claimed Submissions</h2>
+          <SubmissionTable
+            submissions={this.props.pendingSubmissions.filter(
+              s => s.get('callerUsername') === this.props.username)}
+            username={this.props.username}
+            setStatus={this.props.setStatus}
+          />
+          <h2>All Pending Submissions</h2>
+          <SubmissionTable
+            submissions={this.props.pendingSubmissions}
+            username={this.props.username}
+            setStatus={this.props.setStatus}
+          />
         </div>
       </div>
     );
@@ -172,10 +170,8 @@ class CallQueue extends React.Component {
 export const CallQueueContainer = connect(
   state => ({
     username: state.getIn(['auth', 'username']),
-    submissions: state.getIn(['common', 'submissions']),
-    showComplete: state.getIn(['callQueue', 'showComplete']),
+    pendingSubmissions: state.getIn(['callQueue', 'pendingSubmissions']),
   }),
   {
-    toggleShowComplete: actions.toggleShowComplete,
     setStatus: actions.setStatus,
   })(CallQueue);
