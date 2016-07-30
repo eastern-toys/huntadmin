@@ -6,7 +6,6 @@ const INITIAL_STATE = new Map({
   submissions: List.of(),
   teamIds: List.of(),
   users: List.of(),
-  visibilityChanges: List.of(),
 
   autoRefresh: false,
   autoRefreshTimer: null,
@@ -23,23 +22,6 @@ export default function (oldState = INITIAL_STATE, action) {
     }
     return state;
 
-  case 'FETCH_SUBMISSIONS':
-    if (action.submissions) {
-      state = state.set('submissions', fromJS(action.submissions));
-    }
-    return state;
-
-  case 'SET_SUBMISSION_STATUS':
-    return state.updateIn(
-      [
-        'submissions',
-        state.get('submissions').findIndex(
-          submission => submission.get('submissionId') === action.submissionId),
-      ],
-      submission => submission
-        .set('status', action.status)
-        .set('callerUsername', action.callerUsername));
-
   case 'FETCH_TEAMS':
     if (action.teamIds) {
       state = state.set('teamIds', new List(action.teamIds));
@@ -49,12 +31,6 @@ export default function (oldState = INITIAL_STATE, action) {
   case 'FETCH_USERS':
     if (action.users) {
       state = state.set('users', fromJS(action.users));
-    }
-    return state;
-
-  case 'FETCH_VISIBILITY_CHANGES':
-    if (action.visibilityChanges) {
-      state = state.set('visibilityChanges', fromJS(action.visibilityChanges));
     }
     return state;
 

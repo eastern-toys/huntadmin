@@ -7,8 +7,8 @@ const INITIAL_STATE = new Map({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
 
-  case 'FETCH_VISIBILITY_CHANGES':
-    if (action.visibilityChanges && action.visibilityChanges.length > 0) {
+  case 'FETCH_HUNT_STARTED':
+    if (action.huntStarted) {
       return state.set('huntStarted', true);
     }
     return state;

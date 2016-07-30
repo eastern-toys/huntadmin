@@ -34,13 +34,14 @@ export function fetchUsers() {
     .then(dispatch);
 }
 
-export function fetchVisibilityChanges() {
+export function fetchHuntStarted() {
+  // TODO: introduce a less expensive way to determine this
   return (dispatch, getState) => fetchToAction(
-    createGetRequest(getState(), 'visibilitychanges'),
-    'FETCH_VISIBILITY_CHANGES',
+    createGetRequest(getState(), 'visibilities'),
+    'FETCH_HUNT_STARTED',
     (json, action) => ({
       ...action,
-      visibilityChanges: json.visibilityChanges,
+      huntStarted: json.visibilities.length > 0,
     }))
     .then(dispatch);
 }
@@ -50,7 +51,7 @@ export function refresh() {
     dispatch(fetchTeams()),
     dispatch(fetchSubmissions()),
     dispatch(fetchUsers()),
-    dispatch(fetchVisibilityChanges()),
+    dispatch(fetchHuntStarted()),
   ]).then(() => dispatch({
     type: 'REFRESH_COMPLETE',
     timestamp: Date.now(),
