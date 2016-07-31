@@ -40,6 +40,20 @@ class SubmissionRow extends React.Component {
     this.setStatus('INCORRECT');
   }
 
+  renderTeam() {
+    if (this.props.team) {
+      return (
+        <div>
+          {this.props.team.get('teamId')}<br />
+          {this.props.team.get('email')}<br />
+          {this.props.team.get('primaryPhone')}<br />
+          {this.props.team.get('secondaryPhone')}
+        </div>
+      );
+    }
+    return this.props.submission.get('teamId');
+  }
+
   renderTimestamp() {
     return timestampToString(this.props.submission.get('timestamp'));
   }
@@ -93,7 +107,7 @@ class SubmissionRow extends React.Component {
     return (
       <tr>
         <td>{this.renderTimestamp()}</td>
-        <td>{submission.get('teamId')}</td>
+        <td>{this.renderTeam()}</td>
         <td>{submission.get('puzzleId')}</td>
         <td>{submission.get('submission')}</td>
         <td>{caller}</td>
@@ -126,6 +140,7 @@ class SubmissionTable extends React.Component {
             <SubmissionRow
               key={submission.get('submissionId')}
               submission={submission}
+              team={this.props.teams ? this.props.teams.get(submission.get('teamId')) : undefined}
               username={this.props.username}
               setStatus={this.props.setStatus}
             />
@@ -152,6 +167,7 @@ class CallQueue extends React.Component {
           <SubmissionTable
             submissions={this.props.pendingSubmissions.filter(
               s => s.get('callerUsername') === this.props.username)}
+            teams={this.props.teams}
             username={this.props.username}
             setStatus={this.props.setStatus}
           />
@@ -171,6 +187,7 @@ export const CallQueueContainer = connect(
   state => ({
     username: state.getIn(['auth', 'username']),
     pendingSubmissions: state.getIn(['callQueue', 'pendingSubmissions']),
+    teams: state.getIn(['common', 'teams']),
   }),
   {
     setStatus: actions.setStatus,

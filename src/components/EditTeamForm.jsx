@@ -2,9 +2,9 @@ import React from 'react';
 import shallowCompare from 'react-addons-shallow-compare';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions/add_team_form_actions';
+import * as actions from '../actions/edit_team_form_actions';
 
-class AddTeamForm extends React.Component {
+class EditTeamForm extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,9 +15,7 @@ class AddTeamForm extends React.Component {
   }
 
   disableSubmit() {
-    return this.props.submitting ||
-      this.props.teamId.length === 0 ||
-      this.props.password.length === 0;
+    return this.props.submitting;
   }
 
   handleSubmit(event) {
@@ -45,28 +43,26 @@ class AddTeamForm extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <span className="ha-control-box-title">
-          Add New Team
+          Edit Existing Team
         </span>
 
         <div className="ha-labeled-input-form">
           <label>
             Team ID
-            <input
-              type="text"
+
+            <select
               value={this.props.teamId}
               onChange={this.props.changeTeamId}
               {...inputAttrs}
-            />
-          </label>
+            >
+              {this.props.teamIds.map(teamId => (
+                <option key={teamId} value={teamId}>{teamId}</option>
+              ))}
+            </select>
 
-          <label>
-            Password
-            <input
-              type="password"
-              value={this.props.password}
-              onChange={this.props.changePassword}
-              {...inputAttrs}
-            />
+            <button type="button" onClick={this.props.refresh}>
+              Refresh Now
+            </button>
           </label>
 
           <label>
@@ -106,21 +102,21 @@ class AddTeamForm extends React.Component {
   }
 }
 
-export const AddTeamFormContainer = connect(
+export const EditTeamFormContainer = connect(
   state => ({
-    teamId: state.getIn(['addTeamForm', 'teamId']),
-    password: state.getIn(['addTeamForm', 'password']),
-    email: state.getIn(['addTeamForm', 'email']),
-    primaryPhone: state.getIn(['addTeamForm', 'primaryPhone']),
-    secondaryPhone: state.getIn(['addTeamForm', 'secondaryPhone']),
-    submitting: state.getIn(['addTeamForm', 'submitting']),
+    teamIds: state.getIn(['common', 'teamIds']),
+    teamId: state.getIn(['editTeamForm', 'teamId']),
+    email: state.getIn(['editTeamForm', 'email']),
+    primaryPhone: state.getIn(['editTeamForm', 'primaryPhone']),
+    secondaryPhone: state.getIn(['editTeamForm', 'secondaryPhone']),
+    submitting: state.getIn(['editTeamForm', 'submitting']),
   }),
   {
+    refresh: actions.refresh,
     changeTeamId: event => actions.changeTeamId(event.target.value),
-    changePassword: event => actions.changePassword(event.target.value),
     changeEmail: event => actions.changeEmail(event.target.value),
     changePrimaryPhone: event => actions.changePrimaryPhone(event.target.value),
     changeSecondaryPhone: event => actions.changeSecondaryPhone(event.target.value),
     submit: actions.submit,
-  })(AddTeamForm);
+  })(EditTeamForm);
 

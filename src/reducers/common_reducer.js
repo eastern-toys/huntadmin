@@ -5,6 +5,7 @@ const INITIAL_STATE = new Map({
 
   submissions: List.of(),
   teamIds: List.of(),
+  teams: Map.of(),
   users: List.of(),
 
   autoRefresh: false,
@@ -23,8 +24,13 @@ export default function (oldState = INITIAL_STATE, action) {
     return state;
 
   case 'FETCH_TEAMS':
-    if (action.teamIds) {
-      state = state.set('teamIds', new List(action.teamIds));
+    if (action.teams) {
+      state = state.set(
+        'teamIds',
+        new List(action.teams.map(team => team.teamId)));
+      state = state.set(
+        'teams',
+        new Map(action.teams.map(team => [team.teamId, fromJS(team)])));
     }
     return state;
 

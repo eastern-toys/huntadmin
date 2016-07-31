@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { createGetRequest, fetchToAction } from './action_utils';
 
 export function fetchSubmissions() {
@@ -18,7 +17,7 @@ export function fetchTeams() {
     'FETCH_TEAMS',
     (json, action) => ({
       ...action,
-      teamIds: _.map(json.teams, _.property('teamId')),
+      teams: json.teams,
     }))
     .then(dispatch);
 }
