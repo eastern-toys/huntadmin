@@ -1,9 +1,9 @@
 import { createPostRequest, fetchToAction } from './action_utils';
 
-import * as commonActions from './common_actions';
+import { fetchTeams } from './common_actions';
 
 export function refresh() {
-  return commonActions.fetchTeams();
+  return fetchTeams();
 }
 
 export function changeEmail(email) {

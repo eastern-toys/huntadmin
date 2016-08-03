@@ -1,4 +1,5 @@
 import { createPostRequest, fetchToAction } from './action_utils';
+import { fetchTeams } from './common_actions';
 
 export function changeTeamId(teamId) {
   return {
@@ -53,6 +54,9 @@ export function submit() {
         }),
       'ADD_TEAM_FORM_SUBMIT_DONE',
       (json, action) => action)
-      .then(dispatch);
+      .then(action => {
+        dispatch(action);
+        dispatch(fetchTeams());
+      });
   };
 }

@@ -14,8 +14,11 @@ export default function (oldState = INITIAL_STATE, action) {
   switch (action.type) {
 
   case 'FETCH_TEAMS':
-    if (action.teamIds) {
-      state = setListDefault(state, action.teamIds, 'teamId');
+    if (action.teams) {
+      state = setListDefault(
+        state,
+        action.teams.map(team => team.teamId),
+        'teamId');
     }
     return state;
 
