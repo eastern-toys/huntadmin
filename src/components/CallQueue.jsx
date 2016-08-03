@@ -171,9 +171,10 @@ class CallQueue extends React.Component {
             username={this.props.username}
             setStatus={this.props.setStatus}
           />
-          <h2>All Pending Submissions</h2>
+          <h2>Pending Submissions</h2>
           <SubmissionTable
-            submissions={this.props.pendingSubmissions}
+            submissions={this.props.pendingSubmissions.filter(
+              s => s.get('callerUsername') !== this.props.username)}
             username={this.props.username}
             setStatus={this.props.setStatus}
           />
