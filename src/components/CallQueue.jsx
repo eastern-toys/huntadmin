@@ -54,6 +54,38 @@ class SubmissionRow extends React.Component {
     return this.props.submission.get('teamId');
   }
 
+  renderPuzzle() {
+    if (this.props.puzzle) {
+      return (
+        <div>
+          {this.props.puzzle.get('displayName')}<br />
+          {this.props.puzzle.get('puzzleId')}
+        </div>
+      );
+    }
+    return this.props.submission.get('puzzleId');
+  }
+
+  renderAnswer() {
+    if (this.props.puzzle) {
+      // TODO: display acceptable answers in addition to canonical answers
+      return (
+        <div>
+          {this.props.submission.get('submission')}<br />
+          {this.props.puzzle.get('answers').map(answer => (
+            <span
+              className="ha-call-queue-correct-answer"
+              key={answer.get('canonicalAnswer')}
+            >
+              {answer.get('canonicalAnswer')}
+            </span>
+          ))}
+        </div>
+      );
+    }
+    return this.props.submission.get('submission');
+  }
+
   renderTimestamp() {
     return timestampToString(this.props.submission.get('timestamp'));
   }
@@ -108,8 +140,8 @@ class SubmissionRow extends React.Component {
       <tr>
         <td>{this.renderTimestamp()}</td>
         <td>{this.renderTeam()}</td>
-        <td>{submission.get('puzzleId')}</td>
-        <td>{submission.get('submission')}</td>
+        <td>{this.renderPuzzle()}</td>
+        <td>{this.renderAnswer()}</td>
         <td>{caller}</td>
         <td>{this.renderActions()}</td>
       </tr>
@@ -140,7 +172,12 @@ class SubmissionTable extends React.Component {
             <SubmissionRow
               key={submission.get('submissionId')}
               submission={submission}
-              team={this.props.teams ? this.props.teams.get(submission.get('teamId')) : undefined}
+              team={this.props.teams ?
+                    this.props.teams.get(submission.get('teamId')) :
+                    undefined}
+              puzzle={this.props.puzzles ?
+                      this.props.puzzles.get(submission.get('puzzleId')) :
+                      undefined}
               username={this.props.username}
               setStatus={this.props.setStatus}
             />
@@ -168,6 +205,7 @@ class CallQueue extends React.Component {
             submissions={this.props.pendingSubmissions.filter(
               s => s.get('callerUsername') === this.props.username)}
             teams={this.props.teams}
+            puzzles={this.props.puzzles}
             username={this.props.username}
             setStatus={this.props.setStatus}
           />
@@ -188,6 +226,7 @@ export const CallQueueContainer = connect(
   state => ({
     username: state.getIn(['auth', 'username']),
     pendingSubmissions: state.getIn(['callQueue', 'pendingSubmissions']),
+    puzzles: state.getIn(['callQueue', 'puzzles']),
     teams: state.getIn(['common', 'teams']),
   }),
   {

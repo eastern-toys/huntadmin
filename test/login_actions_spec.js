@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { fromJS } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import * as sinon from 'sinon';
 
 import { mockStore, stubFetch } from './test_utils';
@@ -22,6 +22,10 @@ describe('login action creator', () => {
         auth: {
           username: 'admin',
           password: 'adminpassword',
+        },
+        callQueue: {
+          pendingSubmissions: new List(),
+          puzzles: new Map(),
         },
       }));
       const router = [];

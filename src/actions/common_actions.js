@@ -1,4 +1,41 @@
-import { createGetRequest, fetchToAction } from './action_utils';
+import { Set } from 'immutable';
+
+import { createGetRequest, fetchToAction, responseErrorPromise } from './action_utils';
+
+export function fetchPuzzles() {
+  return (dispatch, getState) => {
+    const pendingSubmissionPuzzleIds = new Set(
+      getState()
+        .getIn(['callQueue', 'pendingSubmissions'])
+        .map(s => s.get('puzzleId')));
+    const downloadedPuzzleIds = new Set(
+      getState().getIn(['callQueue', 'puzzles']).keys());
+    const puzzleIdsToFetch =
+      pendingSubmissionPuzzleIds.subtract(downloadedPuzzleIds);
+
+    if (puzzleIdsToFetch.isEmpty()) {
+      return;
+    }
+
+    const puzzlePromises = puzzleIdsToFetch.map(puzzleId => {
+      const request = createGetRequest(getState(), `puzzle/${puzzleId}`);
+      return fetch(request)
+        .then(response => {
+          if (!response.ok) {
+            return responseErrorPromise(request, response)
+              .then(error => Promise.reject(error));
+          }
+          return response.json();
+        });
+    });
+    Promise.all(puzzlePromises).then(puzzles => {
+      dispatch({
+        type: 'FETCH_PUZZLES',
+        puzzles,
+      });
+    });
+  };
+}
 
 export function fetchSubmissions() {
   return (dispatch, getState) => fetchToAction(
@@ -8,7 +45,10 @@ export function fetchSubmissions() {
       ...action,
       submissions: json.submissions,
     }))
-    .then(dispatch);
+    .then(action => {
+      dispatch(action);
+      return dispatch(fetchPuzzles());
+    });
 }
 
 export function fetchTeams() {

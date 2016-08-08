@@ -146,19 +146,6 @@ body {
     margin-left: 0.5em;
 }
 
-.ha-chart-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.ha-chart-text {
-    font-size: 12px;
-}
-
-.ha-chart-text path,
-.ha-chart-text line {
-    fill: none;
-    stroke: #000;
+.ha-call-queue-correct-answer {
+    font-size: 0.75em;
 }
