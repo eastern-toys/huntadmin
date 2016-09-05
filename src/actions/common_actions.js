@@ -8,10 +8,16 @@ export function fetchPuzzles() {
       getState()
         .getIn(['callQueue', 'pendingSubmissions'])
         .map(s => s.get('puzzleId')));
+    const pendingHintRequestPuzzleIds = new Set(
+      getState()
+        .getIn(['callQueue', 'pendingHintRequests'])
+        .map(hr => hr.get('puzzleId')));
+    const callQueuePendingPuzzleIds =
+      pendingSubmissionPuzzleIds.concat(pendingHintRequestPuzzleIds);
     const downloadedPuzzleIds = new Set(
       getState().getIn(['callQueue', 'puzzles']).keys());
     const puzzleIdsToFetch =
-      pendingSubmissionPuzzleIds.subtract(downloadedPuzzleIds);
+      callQueuePendingPuzzleIds.subtract(downloadedPuzzleIds);
 
     if (puzzleIdsToFetch.isEmpty()) {
       return;
@@ -44,6 +50,20 @@ export function fetchSubmissions() {
     (json, action) => ({
       ...action,
       submissions: json.submissions,
+    }))
+    .then(action => {
+      dispatch(action);
+      return dispatch(fetchPuzzles());
+    });
+}
+
+export function fetchHintRequests() {
+  return (dispatch, getState) => fetchToAction(
+    createGetRequest(getState(), 'hintrequests'),
+    'FETCH_PENDING_HINT_REQUESTS',
+    (json, action) => ({
+      ...action,
+      hintRequests: json.hintRequests,
     }))
     .then(action => {
       dispatch(action);
@@ -89,6 +109,7 @@ export function refresh() {
   return dispatch => Promise.all([
     dispatch(fetchTeams()),
     dispatch(fetchSubmissions()),
+    dispatch(fetchHintRequests()),
     dispatch(fetchUsers()),
     dispatch(fetchHuntStarted()),
   ]).then(() => dispatch({
